@@ -1,0 +1,19 @@
+<html>
+<head>
+  <link href="css/styles.css" rel="stylesheet" type="text/css" />
+  <link href='http://fonts.googleapis.com/css?family=Redressed' rel='stylesheet' type='text/css'>
+</head>
+<body>
+  <header>
+    <h1 id="logo">fixmyjs.com</h1>
+  </header>
+  <section>
+    <textarea id="code"></textarea>
+    <button onclick="doHint(document.getElementById('code').value)">Fix It!</button>
+  </section>
+  <footer>
+  </footer>
+</body>
+  <script src="packages/jshint/jshint.js"></script>
+  <script src="src/fixmy.js"></script>
+</html>
