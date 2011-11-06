@@ -12,8 +12,8 @@ class Editor
   hint: ->
     code = @editor.getSession().getValue()
     result = JSHINT code, @options
-    console.log result
-    console.log JSHINT.errors
+
+    fixMyJS JSHINT.data(), code if !result
 
 
 window.onload = ->

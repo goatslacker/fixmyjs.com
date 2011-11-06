@@ -11,8 +11,8 @@ var e = ".ace-mango.ace_editor {\
 }\
 \
 .ace-mango .ace_gutter {\
-  width: 50px;\
-  background: #e8e8e8;\
+  width: 30px;\
+  background: #d2d2d2;\
   color: #333;\
   overflow : hidden;\
 }\
