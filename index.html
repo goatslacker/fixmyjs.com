@@ -9,13 +9,15 @@
     <h1>fixmyjs.com</h1>
   </header>
   <section>
-    <textarea id="code"></textarea>
-    <button onclick="doHint(document.getElementById('code').value)">Fix It!</button>
-    <br />
+    <code id="code"></code>
+    <button>Fix It!</button>
   </section>
   <footer>
   </footer>
 </body>
-  <script src="packages/jshint/jshint.js"></script>
-  <script src="src/fixmy.js"></script>
+  <script src="packages/jshint/jshint.js" type="application/javascript"></script>
+  <script src="packages/ace/ace.js" type="application/javascript" charset="utf-8"></script>
+  <script src="packages/ace/theme-mango.js" type="application/javascript" charset="utf-8"></script>
+  <script src="packages/ace/mode-javascript.js" type="application/javascript" charset="utf-8"></script>
+  <script src="src/fixmy.js" type="application/javascript"></script>
 </html>
