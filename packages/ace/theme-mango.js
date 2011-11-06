@@ -27,8 +27,7 @@ var e = ".ace-mango.ace_editor {\
 }\
 \
 .ace-mango .ace_print_margin {\
-  width: 1px;\
-  background: #e8e8e8;\
+  width: 0px;\
 }\
 \
 .ace-mango .ace_scroller {\

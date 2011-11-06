@@ -102,29 +102,27 @@ header {
 }
 
 header h1 {
-  text-align: right;
   font-size: 3em;
   color: #da1013;
   font-family: Redressed, cursive;
 }
 
 section {
-  width: 1000px;
-  height: 500px;
-  margin: 0 auto;
+  width: 1350px; /* todo get clientHeight */
+  height: 580px; /* todo get clientWidth */
   position: relative;
 }
 
 code {
-  width: 900px;
-  height: 400px;
+  width: 1350px; /* todo get clientHeight */
+  height: 500px; /* todo get clientWidth - 80 */
   position: absolute;
 }
 
 button {
   position: absolute;
   bottom: 0px;
-  right: 50px;
+  right: 0px;
   background-color: rgba(50, 50, 50, 0.9);
   background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(50, 50, 50, 0.9) 0%), to(rgba(30, 30, 30, 0.9) 50%));
   /* Saf4+, Chrome */
@@ -153,10 +151,9 @@ button {
   padding: 10px 0;
   text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.8), 0 1px 1px rgba(255, 255, 255, 0.3);
   width: 100px;
-  margin: 10px 50px;
 }
 
-button.slick-black:hover {
+button:hover {
   background-color: rgba(70, 70, 70, 0.9);
   background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(70, 70, 70, 0.9) 0%), to(rgba(50, 50, 50, 0.9) 50%));
   /* Saf4+, Chrome */
@@ -168,7 +165,7 @@ button.slick-black:hover {
   cursor: pointer;
 }
 
-button.slick-black:active {
+button:active {
   background-color: rgba(30, 30, 30, 0.9);
   background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(30, 30, 30, 0.9) 0%), to(rgba(20, 20, 20, 0.9) 50%));
   /* Saf4+, Chrome */
@@ -177,8 +174,4 @@ button.slick-black:active {
   background-image: -ms-linear-gradient(top, rgba(30, 30, 30, 0.9) 0%, rgba(20, 20, 20, 0.9) 50%, rgba(10, 10, 10, 0.9) 50%, rgba(0, 0, 0, 0.9) 100%);
   background-image: -o-linear-gradient(top, rgba(30, 30, 30, 0.9) 0%, rgba(20, 20, 20, 0.9) 50%, rgba(10, 10, 10, 0.9) 50%, rgba(0, 0, 0, 0.9) 100%);
   background-image: linear-gradient(top, rgba(30, 30, 30, 0.9) 0%, rgba(20, 20, 20, 0.9) 50%, rgba(10, 10, 10, 0.9) 50%, rgba(0, 0, 0, 0.9) 100%);
-}
-
-section br {
-  clear: both;
 }
