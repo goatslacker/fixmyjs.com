@@ -121,8 +121,8 @@ code {
 
 button {
   position: absolute;
-  bottom: 0px;
-  right: 0px;
+  bottom: 15px;
+  right: 15px;
   background-color: rgba(50, 50, 50, 0.9);
   background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(50, 50, 50, 0.9) 0%), to(rgba(30, 30, 30, 0.9) 50%));
   /* Saf4+, Chrome */
