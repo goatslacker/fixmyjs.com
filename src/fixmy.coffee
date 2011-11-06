@@ -13,7 +13,9 @@ class Editor
     code = @editor.getSession().getValue()
     result = JSHINT code, @options
 
-    fixMyJS JSHINT.data(), code if !result
+    code = fixMyJS JSHINT.data(), code if !result
+
+    @editor.getSession().setValue code
 
 
 window.onload = ->

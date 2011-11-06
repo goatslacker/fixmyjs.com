@@ -1,7 +1,6 @@
 (function () {
   var exports = this;
 
-
   var Code = function (src) {
     this.src = src.split("\n");
   };
@@ -35,140 +34,6 @@
     return r.character - tabs.length;
   };
 
-
-  var errors = {
-    "'{a}' is already defined.": {
-      priority: 1,
-      fix: function (r, code) {
-        code.fix(fix.alreadyDefined, r.line, r.a);
-      }
-    },
-
-    "['{a}'] is better written in dot notation.": {
-      priority: 1,
-      fix: function (r, code) {
-        code.fix(fix.dotNotation, r.line, r.a);
-      }
-    },
-
-    "A leading decimal point can be confused with a dot: '.{a}'.": {
-      priority: 1,
-      fix: function (r, code) {
-        code.fix(fix.leadingDecimal, r.line);
-      }
-    },
-
-    "A trailing decimal point can be confused with a dot '{a}'.": {
-      priority: 1,
-      fix: function (r, code) {
-        code.fix(fix.trailingDecimal, r.line);
-      }
-    },
-
-    "All 'debugger' statements should be removed.": {
-      priority: 1,
-      fix: function (r, code) {
-        code.fix(fix.rmDebugger, r.line);
-      }
-    },
-
-    "Expected '{a}' to have an indentation at {b} instead at {c}.": {
-      priority: 1,
-      fix: function (r, code) {
-    //    code.fix(fix.indent, r.line, r.b, r.config);
-      }
-    },
-
-    "It is not necessary to initialize '{a}' to 'undefined'.": {
-      priority: 1,
-      fix: function (r, code) {
-        code.fix(fix.rmUndefined, r.line);
-      }
-    },
-
-    "Line breaking error '{a}'.": {
-      priority: 1,
-      fix: function (r, code) {
-        code.fix(fix.lineBrk, r.line, r.line, (r.line + 1));
-      }
-    },
-
-    "Missing '()' invoking a constructor.": {
-      priority: 1,
-      fix: function (r, code) {
-        code.fix(fix.invokeConstructor, r.line);
-      }
-    },
-
-    "Missing semicolon.": {
-      priority: 0,
-      fix: function (r, code) {
-        code.fix(fix.addSemicolon, r.line, code.getChr(r));
-      }
-    },
-
-    "Missing space after '{a}'.": {
-      priority: 0,
-      fix: function (r, code) {
-        code.fix(fix.addSpace, r.line, code.getChr(r));
-      }
-    },
-
-    "Mixed spaces and tabs.": {
-      priority: 1,
-      fix: function (r, code) {
-        code.fix(fix.mixedSpacesNTabs, r.line, r.config);
-      }
-    },
-
-    "Move the invocation into the parens that contain the function.": {
-      priority: 1,
-      fix: function (r, code) {
-        code.fix(fix.anonFuncInvocation, r.line);
-      }
-    },
-
-    "Too many errors.": {
-      priority: 2,
-      fix: function () {
-      }
-    },
-
-    "Unexpected space after '{a}'.": {
-      priority: 0,
-      fix: function (r, code) {
-        code.fix(fix.rmChar, r.line, code.getChr(r));
-      }
-    },
-
-    "Unnecessary semicolon.": {
-      priority: 0,
-      fix: function (r, code) {
-        code.fix(fix.rmChar, r.line, code.getChr(r));
-      }
-    },
-
-    "Use the isNaN function to compare with NaN.": {
-      priority: 1,
-      fix: function (r, code) {
-        code.fix(fix.useIsNaN, r.line);
-      }
-    },
-
-    "Use the array literal notation [].": {
-      priority: 1,
-      fix: function (r, code) {
-        code.fix(fix.arrayLiteral, r.line);
-      }
-    },
-
-    "Use the object literal notation {}.": {
-      priority: 1,
-      fix: function (r, code) {
-        code.fix(fix.objectLiteral, r.line);
-      }
-    }
-  };
 
   var fix = (function () {
     var helpers = {
@@ -317,6 +182,141 @@
     return Fix;
   }());
 
+
+  var errors = {
+    "'{a}' is already defined.": {
+      priority: 1,
+      fix: function (r, code) {
+        code.fix(fix.alreadyDefined, r.line, r.a);
+      }
+    },
+
+    "['{a}'] is better written in dot notation.": {
+      priority: 1,
+      fix: function (r, code) {
+        code.fix(fix.dotNotation, r.line, r.a);
+      }
+    },
+
+    "A leading decimal point can be confused with a dot: '.{a}'.": {
+      priority: 1,
+      fix: function (r, code) {
+        code.fix(fix.leadingDecimal, r.line);
+      }
+    },
+
+    "A trailing decimal point can be confused with a dot '{a}'.": {
+      priority: 1,
+      fix: function (r, code) {
+        code.fix(fix.trailingDecimal, r.line);
+      }
+    },
+
+    "All 'debugger' statements should be removed.": {
+      priority: 1,
+      fix: function (r, code) {
+        code.fix(fix.rmDebugger, r.line);
+      }
+    },
+
+    "Expected '{a}' to have an indentation at {b} instead at {c}.": {
+      priority: 1,
+      fix: function (r, code) {
+    //    code.fix(fix.indent, r.line, r.b, r.config);
+      }
+    },
+
+    "It is not necessary to initialize '{a}' to 'undefined'.": {
+      priority: 1,
+      fix: function (r, code) {
+        code.fix(fix.rmUndefined, r.line);
+      }
+    },
+
+    "Line breaking error '{a}'.": {
+      priority: 1,
+      fix: function (r, code) {
+        code.fix(fix.lineBrk, r.line, r.line, (r.line + 1));
+      }
+    },
+
+    "Missing '()' invoking a constructor.": {
+      priority: 1,
+      fix: function (r, code) {
+        code.fix(fix.invokeConstructor, r.line);
+      }
+    },
+
+    "Missing semicolon.": {
+      priority: 0,
+      fix: function (r, code) {
+        code.fix(fix.addSemicolon, r.line, code.getChr(r));
+      }
+    },
+
+    "Missing space after '{a}'.": {
+      priority: 0,
+      fix: function (r, code) {
+        code.fix(fix.addSpace, r.line, code.getChr(r));
+      }
+    },
+
+    "Mixed spaces and tabs.": {
+      priority: 1,
+      fix: function (r, code) {
+        code.fix(fix.mixedSpacesNTabs, r.line, r.config);
+      }
+    },
+
+    "Move the invocation into the parens that contain the function.": {
+      priority: 1,
+      fix: function (r, code) {
+        code.fix(fix.anonFuncInvocation, r.line);
+      }
+    },
+
+    "Too many errors.": {
+      priority: 2,
+      fix: function () {
+      }
+    },
+
+    "Unexpected space after '{a}'.": {
+      priority: 0,
+      fix: function (r, code) {
+        code.fix(fix.rmChar, r.line, code.getChr(r));
+      }
+    },
+
+    "Unnecessary semicolon.": {
+      priority: 0,
+      fix: function (r, code) {
+        code.fix(fix.rmChar, r.line, code.getChr(r));
+      }
+    },
+
+    "Use the isNaN function to compare with NaN.": {
+      priority: 1,
+      fix: function (r, code) {
+        code.fix(fix.useIsNaN, r.line);
+      }
+    },
+
+    "Use the array literal notation [].": {
+      priority: 1,
+      fix: function (r, code) {
+        code.fix(fix.arrayLiteral, r.line);
+      }
+    },
+
+    "Use the object literal notation {}.": {
+      priority: 1,
+      fix: function (r, code) {
+        code.fix(fix.objectLiteral, r.line);
+      }
+    }
+  };
+
   exports.fixMyJS = (function () {
   //  var EventEmitter = require('events').EventEmitter;
 
@@ -384,7 +384,7 @@
       // fix them.
       results.forEach(fixErrors(code, config));
 
-//      this.emit("done", Code);
+      return code.getCode();
     }
 
     return fixMyJS;
