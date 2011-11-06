@@ -37,7 +37,7 @@ var e = ".ace-mango.ace_editor {\
 \
 .ace-mango .ace_text-layer {\
   cursor: text;\
-  color: #8f938f;\
+  color: white;\
 }\
 \
 .ace-mango .ace_cursor {\
@@ -48,7 +48,7 @@ var e = ".ace-mango.ace_editor {\
   border-left: 0px;\
   border-bottom: 1px solid #A7A7A7;\
 }\
- \
+\
 .ace-mango .ace_marker-layer .ace_selection {\
   background: rgba(221, 240, 255, 0.20);\
 }\
@@ -66,21 +66,20 @@ var e = ".ace-mango.ace_editor {\
   background: rgba(255, 255, 255, 0.031);\
 }\
 \
-       \
 .ace-mango .ace_invisible {\
   color: rgba(255, 255, 255, 0.25);\
 }\
 \
 .ace-mango .ace_keyword {\
-  color:#757ad8;\
+  color: #daa520;\
 }\
 \
 .ace-mango .ace_keyword.ace_operator {\
-  color:#797878;\
+  color: white;\
 }\
 \
 .ace-mango .ace_constant {\
-  color:#4fb7c5;\
+  color: #4fb7c5;\
 }\
 \
 .ace-mango .ace_constant.ace_language {\
@@ -91,8 +90,8 @@ var e = ".ace-mango.ace_editor {\
   \
 }\
 \
-.ace-mango .ace_constant.ace_numeric {\
-  \
+.ace-mango .ace_constant.ace_numeric, .ace-mango .ace_constant.ace_boolean {\
+  color: #D45D57;\
 }\
 \
 .ace-mango .ace_invalid {\
@@ -100,22 +99,22 @@ var e = ".ace-mango.ace_editor {\
 }\
 \
 .ace-mango .ace_invalid.ace_illegal {\
-  color:#F8F8F8;\
-background-color:rgba(86, 45, 86, 0.75);\
+  color: #F8F8F8;\
+  background-color:rgba(86, 45, 86, 0.75);\
 }\
 \
 .ace-mango .ace_invalid.ace_deprecated {\
   text-decoration:underline;\
-font-style:italic;\
-color:#D2A8A1;\
+  font-style:italic;\
+  color: #D2A8A1;\
 }\
 \
 .ace-mango .ace_support {\
-  color:#9a9a9a;\
+  color: #9a9a9a;\
 }\
 \
 .ace-mango .ace_support.ace_function {\
-  color:#aeb2f8;\
+  color: #aeb2f8;\
 }\
 \
 .ace-mango .ace_function.ace_buildin {\
@@ -123,31 +122,31 @@ color:#D2A8A1;\
 }\
 \
 .ace-mango .ace_string {\
-  color:#66a968;\
+  color: #87AF5F;\
 }\
 \
 .ace-mango .ace_string.ace_regexp {\
-  color:#E9C062;\
+  color: #E9C062;\
 }\
 \
 .ace-mango .ace_comment {\
-  color:#656865;\
+  color: #656865;\
 }\
 \
 .ace-mango .ace_comment.ace_doc {\
-  color:A6C6FF;\
+  color: #A6C6FF;\
 }\
 \
 .ace-mango .ace_comment.ace_doc.ace_tag {\
-  color:A6C6FF;\
+  color: #A6C6FF;\
 }\
 \
 .ace-mango .ace_variable {\
-  color:#bebf55;\
+  color: #bebf55;\
 }\
 \
 .ace-mango .ace_variable.ace_language {\
-  color:#bebf55;\
+  color: #bebf55;\
 }\
 \
 .ace-mango .ace_xml_pe {\
