@@ -1,6 +1,6 @@
 class Editor
 
-  constructor: ->
+  constructor: (@options = Editor.getOptions()) ->
     @editor = ace.edit "code"
     @editor.setTheme "ace/theme/mango"
     JavaScriptMode = require("ace/mode/javascript").Mode
@@ -16,9 +16,6 @@ class Editor
       exec: (env, args, request) =>
         @hint()
     )
-
-  options:
-    white: true
 
   hint: ->
     code = @editor.getSession().getValue()
@@ -39,8 +36,13 @@ class Editor
       height: "#{height - 156}px"
     )
 
+  @getOptions: ->
+    { white: true }
 
 $.domReady ->
   Editor.fullScreen()
   env = new Editor()
   $("button").on("click", (-> env.hint()))
+  $("#options").on("click", ->
+    alert "showing options"
+  )

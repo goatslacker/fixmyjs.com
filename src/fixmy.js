@@ -2,8 +2,9 @@
   var Editor;
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   Editor = (function() {
-    function Editor() {
+    function Editor(options) {
       var JavaScriptMode, canon;
+      this.options = options != null ? options : Editor.getOptions();
       this.editor = ace.edit("code");
       this.editor.setTheme("ace/theme/mango");
       JavaScriptMode = require("ace/mode/javascript").Mode;
@@ -21,9 +22,6 @@
         }, this)
       });
     }
-    Editor.prototype.options = {
-      white: true
-    };
     Editor.prototype.hint = function() {
       var code, result;
       code = this.editor.getSession().getValue();
@@ -45,14 +43,22 @@
         height: "" + (height - 156) + "px"
       });
     };
+    Editor.getOptions = function() {
+      return {
+        white: true
+      };
+    };
     return Editor;
   })();
   $.domReady(function() {
     var env;
     Editor.fullScreen();
     env = new Editor();
-    return $("button").on("click", (function() {
+    $("button").on("click", (function() {
       return env.hint();
     }));
+    return $("#options").on("click", function() {
+      return alert("showing options");
+    });
   });
 }).call(this);

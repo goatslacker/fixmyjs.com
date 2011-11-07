@@ -136,6 +136,31 @@ footer {
   bottom: 5px;
 }
 
+#options {
+  font-family: Inconsolata;
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+  position: fixed;
+  top: 25%;
+  left: -35px;
+  z-index: 9001;
+  font-size: 20px;
+  padding: 4px 8px;
+  border: 2px solid white;
+  border-top: none;
+  cursor: pointer;
+  color: white;
+  background: #da1013;
+}
+
+#options:hover {
+  background: #282828;
+  left: -30px;
+}
+
 button {
   position: absolute;
   bottom: 15px;
