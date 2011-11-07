@@ -1,5 +1,5 @@
 (function() {
-  var Editor;
+  var Editor, Scrim;
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   Editor = (function() {
     function Editor(options) {
@@ -50,6 +50,42 @@
     };
     return Editor;
   })();
+  Scrim = (function() {
+    function Scrim() {}
+    Scrim.scrim = (function() {
+      var el, height, width, _ref;
+      _ref = $("body").offset(), width = _ref.width, height = _ref.height;
+      el = document.createElement("div");
+      document.body.appendChild(el);
+      $(el).css({
+        position: "fixed",
+        top: 0,
+        left: 0,
+        background: "rgba(0, 0, 0, 0.8)",
+        zIndex: "9000",
+        width: "" + width + "px",
+        height: "" + height + "px"
+      }).hide();
+      return el;
+    })();
+    Scrim.isShowing = false;
+    Scrim.toggle = function() {
+      if (this.isShowing) {
+        return Scrim.hide();
+      } else {
+        return Scrim.show();
+      }
+    };
+    Scrim.show = function() {
+      this.isShowing = !this.isShowing;
+      return $(Scrim.scrim).show();
+    };
+    Scrim.hide = function() {
+      this.isShowing = !this.isShowing;
+      return $(Scrim.scrim).hide();
+    };
+    return Scrim;
+  })();
   $.domReady(function() {
     var env;
     Editor.fullScreen();
@@ -58,7 +94,7 @@
       return env.hint();
     }));
     return $("#options").on("click", function() {
-      return alert("showing options");
+      return Scrim.toggle();
     });
   });
 }).call(this);

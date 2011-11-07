@@ -39,10 +39,47 @@ class Editor
   @getOptions: ->
     { white: true }
 
+
+class Scrim
+
+  @scrim: do ->
+    { width, height } = $("body").offset()
+    el = document.createElement "div"
+    document.body.appendChild el
+
+    $(el).css(
+      position: "fixed"
+      top: 0
+      left: 0
+      background: "rgba(0, 0, 0, 0.8)"
+      zIndex: "9000"
+      width: "#{width}px"
+      height: "#{height}px"
+    ).hide()
+
+    el
+
+  @isShowing: false
+
+  @toggle: ->
+    if @isShowing
+      Scrim.hide()
+    else
+      Scrim.show()
+
+  @show: ->
+    @isShowing = !@isShowing
+    $(Scrim.scrim).show()
+
+  @hide: ->
+    @isShowing = !@isShowing
+    $(Scrim.scrim).hide()
+
+
 $.domReady ->
   Editor.fullScreen()
   env = new Editor()
   $("button").on("click", (-> env.hint()))
   $("#options").on("click", ->
-    alert "showing options"
+    Scrim.toggle()
   )
