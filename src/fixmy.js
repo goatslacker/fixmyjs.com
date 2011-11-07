@@ -2,9 +2,8 @@
   var Editor, Options, Scrim;
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   Editor = (function() {
-    function Editor(options) {
+    function Editor() {
       var JavaScriptMode, canon;
-      this.options = options != null ? options : Editor.getOptions();
       this.editor = ace.edit("code");
       this.editor.setTheme("ace/theme/mango");
       JavaScriptMode = require("ace/mode/javascript").Mode;
@@ -25,7 +24,7 @@
     Editor.prototype.hint = function() {
       var code, result;
       code = this.editor.getSession().getValue();
-      result = JSHINT(code, this.options);
+      result = JSHINT(code, Options.options);
       if (!result) {
         code = fixMyJS(JSHINT.data(), code);
       }
@@ -87,6 +86,18 @@
   })();
   Options = (function() {
     function Options() {}
+    Options.options = {
+      asi: false,
+      debug: false,
+      immed: true,
+      laxbreak: true,
+      sub: false
+    };
+    Options.toggleOption = function(opt) {
+      if (this.options.hasOwnProperty(opt)) {
+        return this.options[opt] = !this.options[opt];
+      }
+    };
     Options.toggle = function() {
       if (Scrim.isShowing) {
         return Options.hide();
@@ -118,14 +129,19 @@
     var env;
     Editor.fullScreen();
     env = new Editor();
-    $("button").on("click", (function() {
-      return env.hint();
-    }));
+    $("aside input").each(function(el) {
+      return $(el).on("click", function(event) {
+        return Options.toggleOption(event.target.name);
+      });
+    });
+    $("span.close").on("click", function() {
+      return Options.hide();
+    });
     $("#options").on("click", function() {
       return Options.toggle();
     });
-    return $("span.close").on("click", function() {
-      return Options.hide();
-    });
+    return $("button").on("click", (function() {
+      return env.hint();
+    }));
   });
 }).call(this);

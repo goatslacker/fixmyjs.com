@@ -1,6 +1,6 @@
 class Editor
 
-  constructor: (@options = Editor.getOptions()) ->
+  constructor: ->
     @editor = ace.edit "code"
     @editor.setTheme "ace/theme/mango"
     JavaScriptMode = require("ace/mode/javascript").Mode
@@ -19,7 +19,7 @@ class Editor
 
   hint: ->
     code = @editor.getSession().getValue()
-    result = JSHINT code, @options
+    result = JSHINT code, Options.options
 
     code = fixMyJS JSHINT.data(), code if !result
 
@@ -80,6 +80,16 @@ class Scrim
 
 class Options
 
+  @options:
+    asi: false
+    debug: false
+    immed: true
+    laxbreak: true
+    sub: false
+
+  @toggleOption: (opt) ->
+    @options[opt] = !@options[opt] if @options.hasOwnProperty opt
+
   @toggle: ->
     if Scrim.isShowing
       Options.hide()
@@ -109,6 +119,12 @@ $.domReady ->
   Editor.fullScreen()
   env = new Editor()
 
-  $("button").on("click", (-> env.hint()))
-  $("#options").on("click", -> Options.toggle())
+  # Event Listeners
+  $("aside input").each((el) ->
+    $(el).on("click", (event) ->
+      Options.toggleOption event.target.name
+    )
+  )
   $("span.close").on("click", -> Options.hide())
+  $("#options").on("click", -> Options.toggle())
+  $("button").on("click", (-> env.hint()))
