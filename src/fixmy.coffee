@@ -37,7 +37,7 @@ class Editor
     )
 
   @getOptions: ->
-    { white: true }
+    { }
 
 
 class Scrim
@@ -47,7 +47,9 @@ class Scrim
     el = document.createElement "div"
     document.body.appendChild el
 
-    $(el).css(
+    val = $ el
+
+    val.css(
       position: "fixed"
       top: 0
       left: 0
@@ -57,7 +59,7 @@ class Scrim
       height: "#{height}px"
     ).hide()
 
-    el
+    val
 
   @isShowing: false
 
@@ -69,17 +71,24 @@ class Scrim
 
   @show: ->
     @isShowing = !@isShowing
-    $(Scrim.scrim).show()
+    Scrim.scrim.show()
 
   @hide: ->
     @isShowing = !@isShowing
-    $(Scrim.scrim).hide()
+    Scrim.scrim.hide()
 
 
 $.domReady ->
   Editor.fullScreen()
   env = new Editor()
+
   $("button").on("click", (-> env.hint()))
+
   $("#options").on("click", ->
+    if Scrim.isShowing
+      $("aside").removeClass "open"
+    else
+      $("aside").addClass "open"
+
     Scrim.toggle()
   )

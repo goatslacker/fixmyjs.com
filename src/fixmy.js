@@ -44,20 +44,19 @@
       });
     };
     Editor.getOptions = function() {
-      return {
-        white: true
-      };
+      return {};
     };
     return Editor;
   })();
   Scrim = (function() {
     function Scrim() {}
     Scrim.scrim = (function() {
-      var el, height, width, _ref;
+      var el, height, val, width, _ref;
       _ref = $("body").offset(), width = _ref.width, height = _ref.height;
       el = document.createElement("div");
       document.body.appendChild(el);
-      $(el).css({
+      val = $(el);
+      val.css({
         position: "fixed",
         top: 0,
         left: 0,
@@ -66,7 +65,7 @@
         width: "" + width + "px",
         height: "" + height + "px"
       }).hide();
-      return el;
+      return val;
     })();
     Scrim.isShowing = false;
     Scrim.toggle = function() {
@@ -78,11 +77,11 @@
     };
     Scrim.show = function() {
       this.isShowing = !this.isShowing;
-      return $(Scrim.scrim).show();
+      return Scrim.scrim.show();
     };
     Scrim.hide = function() {
       this.isShowing = !this.isShowing;
-      return $(Scrim.scrim).hide();
+      return Scrim.scrim.hide();
     };
     return Scrim;
   })();
@@ -94,6 +93,11 @@
       return env.hint();
     }));
     return $("#options").on("click", function() {
+      if (Scrim.isShowing) {
+        $("aside").removeClass("open");
+      } else {
+        $("aside").addClass("open");
+      }
       return Scrim.toggle();
     });
   });

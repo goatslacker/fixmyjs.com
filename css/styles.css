@@ -144,7 +144,7 @@ footer {
   -ms-transform: rotate(-90deg);
   transform: rotate(-90deg);
   position: fixed;
-  top: 25%;
+  top: 150px;
   left: -35px;
   z-index: 9001;
   font-size: 20px;
@@ -159,6 +159,48 @@ footer {
 #options:hover {
   background: #282828;
   left: -30px;
+}
+
+aside {
+  position: absolute;
+  overflow: hidden;
+  width: 100px;
+  height: 100px;
+  z-index: 9001;
+  top: 105px;
+  left: -200px;
+  font-size: 20px;
+  line-height: 20px;
+  background: white;
+  border: 2px solid #353535;
+  border-left: none;
+  -webkit-border-radius: 14px;
+  -moz-border-radius: 14px;
+  -ms-border-radius: 14px;
+  -o-border-radius: 14px;
+  border-radius: 14px;
+  padding: 10px 40px;
+  -webkit-transition: all 1s ease-in-out;
+}
+
+aside input {
+  float: left;
+}
+
+aside label {
+  float: left;
+}
+
+aside br {
+  clear: both;
+}
+
+aside.open {
+  left: -10px;
+  -webkit-transition: all 1s ease-in-out;
+}
+
+aside.open #options {
 }
 
 button {
