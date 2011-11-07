@@ -95,6 +95,18 @@ input, select {
 
 body {
   background: white;
+  position: relative;
+}
+
+a, a:active, a:visited {
+  color: #282828;
+  background: #7bc7ff;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #7bc7ff;
+  background: #282828;
 }
 
 header {
@@ -113,6 +125,13 @@ section {
 
 code {
   position: absolute;
+}
+
+footer {
+  font-family: Helvetica;
+  font-size: 12px;
+  position: absolute;
+  bottom: 5px;
 }
 
 button {

@@ -6,6 +6,17 @@ class Editor
     JavaScriptMode = require("ace/mode/javascript").Mode
     @editor.getSession().setMode new JavaScriptMode
 
+    canon = require "pilot/canon"
+    canon.addCommand(
+      name: "myCommand"
+      bindKey:
+        win: "Ctrl-B"
+        mac: "Command-B"
+        sender: "editor"
+      exec: (env, args, request) =>
+        @hint()
+    )
+
   options:
     white: true
 
