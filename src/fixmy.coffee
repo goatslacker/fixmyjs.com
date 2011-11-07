@@ -17,8 +17,19 @@ class Editor
 
     @editor.getSession().setValue code
 
+  @fullScreen: ->
+    { width, height } = $("body").offset()
+    $("section").css(
+      width: "#{width}px"
+      height: "#{height - 76}px"
+    )
+    $("code").css(
+      width: "#{width}px"
+      height: "#{height - 156}px"
+    )
 
-window.onload = ->
+
+$.domReady ->
+  Editor.fullScreen()
   env = new Editor()
-  button = document.querySelector "button"
-  button.addEventListener "click", (-> env.hint()), false
+  $("button").on("click", (-> env.hint()))

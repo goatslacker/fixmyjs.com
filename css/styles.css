@@ -108,14 +108,10 @@ header h1 {
 }
 
 section {
-  width: 1366px; /* todo get clientHeight */
-  height: 580px; /* todo get clientWidth */
   position: relative;
 }
 
 code {
-  width: 1366px; /* todo get clientHeight */
-  height: 500px; /* todo get clientWidth - 80 */
   position: absolute;
 }
 
