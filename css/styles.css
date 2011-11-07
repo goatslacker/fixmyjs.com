@@ -121,6 +121,33 @@ header h1 {
   font-family: Redressed, cursive;
 }
 
+nav {
+  position: absolute;
+  top: 6px;
+  right: 150px;
+}
+
+nav a {
+  background: #282828 !important;
+  color: white !important;
+  padding: 20px 20px 8px 20px;
+  margin-right: 6px;
+  -webkit-border-radius: 14px;
+  -moz-border-radius: 14px;
+  -ms-border-radius: 14px;
+  -o-border-radius: 14px;
+  border-radius: 14px;
+  -webkit-box-shadow: inset 1px 1px 1px 0px rgba(135, 135, 135, 0.1), inset -1px -1px 1px 0px rgba(135, 135, 135, 0.1);
+  -moz-box-shadow: inset 1px 1px 1px 0px rgba(135, 135, 135, 0.1), inset -1px -1px 1px 0px rgba(135, 135, 135, 0.1);
+  -ms-box-shadow: inset 1px 1px 1px 0px rgba(135, 135, 135, 0.1), inset -1px -1px 1px 0px rgba(135, 135, 135, 0.1);
+  -o-box-shadow: inset 1px 1px 1px 0px rgba(135, 135, 135, 0.1), inset -1px -1px 1px 0px rgba(135, 135, 135, 0.1);
+  box-shadow: inset 1px 1px 1px 0px rgba(135, 135, 135, 0.1), inset -1px -1px 1px 0px rgba(135, 135, 135, 0.1);
+}
+
+nav a:hover {
+  background: #da1013 !important;
+}
+
 section {
   position: relative;
 }
