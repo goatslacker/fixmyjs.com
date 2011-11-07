@@ -78,17 +78,37 @@ class Scrim
     Scrim.scrim.hide()
 
 
+class Options
+
+  @toggle: ->
+    if Scrim.isShowing
+      Options.hide()
+    else
+      Options.show()
+
+  @show: ->
+    Scrim.show()
+    $("aside").addClass "open"
+
+    setTimeout((->
+      if Scrim.isShowing
+        $("span.close").addClass "visible"
+    ), 1000)
+
+  @hide: ->
+    $("span.close").removeClass "visible"
+
+    setTimeout((->
+      if Scrim.isShowing
+        $("aside").removeClass "open"
+        Scrim.hide()
+    ), 200)
+
+
 $.domReady ->
   Editor.fullScreen()
   env = new Editor()
 
   $("button").on("click", (-> env.hint()))
-
-  $("#options").on("click", ->
-    if Scrim.isShowing
-      $("aside").removeClass "open"
-    else
-      $("aside").addClass "open"
-
-    Scrim.toggle()
-  )
+  $("#options").on("click", -> Options.toggle())
+  $("span.close").on("click", -> Options.hide())

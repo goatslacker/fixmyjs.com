@@ -1,5 +1,5 @@
 (function() {
-  var Editor, Scrim;
+  var Editor, Options, Scrim;
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   Editor = (function() {
     function Editor(options) {
@@ -85,6 +85,35 @@
     };
     return Scrim;
   })();
+  Options = (function() {
+    function Options() {}
+    Options.toggle = function() {
+      if (Scrim.isShowing) {
+        return Options.hide();
+      } else {
+        return Options.show();
+      }
+    };
+    Options.show = function() {
+      Scrim.show();
+      $("aside").addClass("open");
+      return setTimeout((function() {
+        if (Scrim.isShowing) {
+          return $("span.close").addClass("visible");
+        }
+      }), 1000);
+    };
+    Options.hide = function() {
+      $("span.close").removeClass("visible");
+      return setTimeout((function() {
+        if (Scrim.isShowing) {
+          $("aside").removeClass("open");
+          return Scrim.hide();
+        }
+      }), 200);
+    };
+    return Options;
+  })();
   $.domReady(function() {
     var env;
     Editor.fullScreen();
@@ -92,13 +121,11 @@
     $("button").on("click", (function() {
       return env.hint();
     }));
-    return $("#options").on("click", function() {
-      if (Scrim.isShowing) {
-        $("aside").removeClass("open");
-      } else {
-        $("aside").addClass("open");
-      }
-      return Scrim.toggle();
+    $("#options").on("click", function() {
+      return Options.toggle();
+    });
+    return $("span.close").on("click", function() {
+      return Options.hide();
     });
   });
 }).call(this);
