@@ -91,7 +91,8 @@
       debug: false,
       immed: true,
       laxbreak: true,
-      sub: false
+      sub: false,
+      white: false
     };
     Options.toggleOption = function(opt) {
       if (this.options.hasOwnProperty(opt)) {

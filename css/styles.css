@@ -166,9 +166,9 @@ aside {
   position: absolute;
   overflow: hidden;
   width: 100px;
-  height: 100px;
+  height: 120px;
   z-index: 9001;
-  top: 105px;
+  top: 90px;
   left: -200px;
   font-size: 20px;
   line-height: 20px;

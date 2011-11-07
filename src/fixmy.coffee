@@ -86,6 +86,7 @@ class Options
     immed: true
     laxbreak: true
     sub: false
+    white: false
 
   @toggleOption: (opt) ->
     @options[opt] = !@options[opt] if @options.hasOwnProperty opt
