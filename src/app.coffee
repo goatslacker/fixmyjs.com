@@ -84,8 +84,11 @@ class Options
     asi: false
     debug: false
     immed: true
+    lastsemic: false
     laxbreak: true
+    shadow: false
     sub: false
+    supernew: false
     white: false
 
   @toggleOption: (opt) ->
