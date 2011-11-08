@@ -171,7 +171,7 @@ footer {
   -ms-transform: rotate(-90deg);
   transform: rotate(-90deg);
   position: fixed;
-  top: 150px;
+  top: 175px;
   left: -35px;
   z-index: 9001;
   font-size: 20px;
@@ -203,7 +203,7 @@ datalist {
   position: absolute;
   overflow: hidden;
   width: 100px;
-  height: 120px;
+  height: 180px;
   z-index: 9001;
   top: 90px;
   left: -200px;
