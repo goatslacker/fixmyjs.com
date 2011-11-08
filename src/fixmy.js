@@ -131,13 +131,19 @@
     About.isOpen = false;
     About.close = function() {
       if (this.isOpen) {
-        $("aside").removeClass("bounceIn").addClass("bounceOut").hide();
+        $("aside").removeClass("bounceIn").addClass("bounceOut");
       }
+      setTimeout((__bind(function() {
+        if (!this.isOpen) {
+          return $("aside").hide();
+        }
+      }, this)), 1000);
+      clearTimeout(this.timer);
       return this.isOpen = false;
     };
     About.open = function() {
       $("aside").removeClass("bounceOut").addClass("bounceIn").show();
-      setTimeout(About.close, 5000);
+      this.timer = setTimeout(About.close, 7500);
       return this.isOpen = true;
     };
     return About;
@@ -165,6 +171,6 @@
     });
     return $("aside").on("click", function() {
       return About.close();
-    }).hide();
+    }).hide().addClass("animated");
   });
 }).call(this);

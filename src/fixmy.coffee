@@ -125,7 +125,13 @@ class About
       $("aside")
         .removeClass("bounceIn")
         .addClass("bounceOut")
-        .hide()
+
+    setTimeout((=>
+      if !@isOpen
+        $("aside").hide()
+    ), 1000)
+
+    clearTimeout @timer
 
     @isOpen = false
 
@@ -135,7 +141,7 @@ class About
       .addClass("bounceIn")
       .show()
 
-    setTimeout About.close, 5000
+    @timer = setTimeout About.close, 7500
 
     @isOpen = true
 
@@ -154,4 +160,4 @@ $.domReady ->
   $("#options").on("click", -> Options.toggle())
   $("button").on("click", (-> env.hint()))
   $("#about").on("click", -> About.open())
-  $("aside").on("click", -> About.close()).hide()
+  $("aside").on("click", -> About.close()).hide().addClass("animated")

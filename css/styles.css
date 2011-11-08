@@ -234,6 +234,7 @@ span.close {
   -moz-border-radius: 14px;
   -ms-border-radius: 14px;
   -o-border-radius: 14px;
+  border-radius: 14px;
   opacity: 0;
   -webkit-transition: all 0.2s ease-in-out;
   -moz-transition: all 0.2s ease-in-out;
@@ -278,15 +279,16 @@ aside {
   background: rgba(0, 0, 0, 0.4);
   z-index: 9002;
   padding: 20px;
+  border: 4px solid white;
+  -webkit-border-radius: 14px;
+  -moz-border-radius: 14px;
+  -ms-border-radius: 14px;
+  -o-border-radius: 14px;
+  border-radius: 14px;
+}
 
-  -webkit-animation-timing-function: ease;
-  -webkit-animation-fill-mode: both;
-  -moz-animation-timing-function: ease;
-  -moz-animation-fill-mode: both;
-  -ms-animation-timing-function: ease;
-  -ms-animation-fill-mode: both;
-  animation-timing-function: ease;
-  animation-fill-mode: both;
+aside p {
+  padding: 5px 0;
 }
 
 button {
