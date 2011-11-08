@@ -99,7 +99,7 @@ class Options
 
   @show: ->
     Scrim.show()
-    $("aside").addClass "open"
+    $("datalist").addClass "open"
 
     setTimeout((->
       if Scrim.isShowing
@@ -111,9 +111,33 @@ class Options
 
     setTimeout((->
       if Scrim.isShowing
-        $("aside").removeClass "open"
+        $("datalist").removeClass "open"
         Scrim.hide()
     ), 200)
+
+
+class About
+
+  @isOpen: false
+
+  @close: ->
+    if @isOpen
+      $("aside")
+        .removeClass("bounceIn")
+        .addClass("bounceOut")
+        .hide()
+
+    @isOpen = false
+
+  @open: ->
+    $("aside")
+      .removeClass("bounceOut")
+      .addClass("bounceIn")
+      .show()
+
+    setTimeout About.close, 5000
+
+    @isOpen = true
 
 
 $.domReady ->
@@ -121,7 +145,7 @@ $.domReady ->
   env = new Editor()
 
   # Event Listeners
-  $("aside input").each((el) ->
+  $("datalist input").each((el) ->
     $(el).on("click", (event) ->
       Options.toggleOption event.target.name
     )
@@ -129,3 +153,5 @@ $.domReady ->
   $("span.close").on("click", -> Options.hide())
   $("#options").on("click", -> Options.toggle())
   $("button").on("click", (-> env.hint()))
+  $("#about").on("click", -> About.open())
+  $("aside").on("click", -> About.close()).hide()

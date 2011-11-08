@@ -1,5 +1,5 @@
 (function() {
-  var Editor, Options, Scrim;
+  var About, Editor, Options, Scrim;
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   Editor = (function() {
     function Editor() {
@@ -108,7 +108,7 @@
     };
     Options.show = function() {
       Scrim.show();
-      $("aside").addClass("open");
+      $("datalist").addClass("open");
       return setTimeout((function() {
         if (Scrim.isShowing) {
           return $("span.close").addClass("visible");
@@ -119,18 +119,34 @@
       $("span.close").removeClass("visible");
       return setTimeout((function() {
         if (Scrim.isShowing) {
-          $("aside").removeClass("open");
+          $("datalist").removeClass("open");
           return Scrim.hide();
         }
       }), 200);
     };
     return Options;
   })();
+  About = (function() {
+    function About() {}
+    About.isOpen = false;
+    About.close = function() {
+      if (this.isOpen) {
+        $("aside").removeClass("bounceIn").addClass("bounceOut").hide();
+      }
+      return this.isOpen = false;
+    };
+    About.open = function() {
+      $("aside").removeClass("bounceOut").addClass("bounceIn").show();
+      setTimeout(About.close, 5000);
+      return this.isOpen = true;
+    };
+    return About;
+  })();
   $.domReady(function() {
     var env;
     Editor.fullScreen();
     env = new Editor();
-    $("aside input").each(function(el) {
+    $("datalist input").each(function(el) {
       return $(el).on("click", function(event) {
         return Options.toggleOption(event.target.name);
       });
@@ -141,8 +157,14 @@
     $("#options").on("click", function() {
       return Options.toggle();
     });
-    return $("button").on("click", (function() {
+    $("button").on("click", (function() {
       return env.hint();
     }));
+    $("#about").on("click", function() {
+      return About.open();
+    });
+    return $("aside").on("click", function() {
+      return About.close();
+    }).hide();
   });
 }).call(this);

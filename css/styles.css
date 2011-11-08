@@ -189,7 +189,7 @@ footer {
   left: -30px;
 }
 
-aside {
+datalist {
   position: absolute;
   overflow: hidden;
   width: 100px;
@@ -251,21 +251,42 @@ span.close.visible {
   transition: all 0.2s ease-in-out;
 }
 
-aside input {
+datalist input {
   float: left;
 }
 
-aside label {
+datalist label {
   float: left;
 }
 
-aside br {
+datalist br {
   clear: both;
 }
 
-aside.open {
+datalist.open {
   left: -10px;
   -webkit-transition: all 1s ease-in-out;
+}
+
+aside {
+  font-family: Helvetica;
+  position: absolute;
+  width: 300px;
+  top: 25%;
+  left: 37%;
+  color: white;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 9002;
+  padding: 20px;
+
+  -webkit-animation-timing-function: ease;
+  -webkit-animation-fill-mode: both;
+  -moz-animation-timing-function: ease;
+  -moz-animation-fill-mode: both;
+  -ms-animation-timing-function: ease;
+  -ms-animation-fill-mode: both;
+  animation-timing-function: ease;
+  animation-fill-mode: both;
 }
 
 button {

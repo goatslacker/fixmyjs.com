@@ -3,12 +3,13 @@
   <link href="css/styles.css" rel="stylesheet" type="text/css" />
   <link href='http://fonts.googleapis.com/css?family=Redressed' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+  <link href="css/animate.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
   <header>
     <h1>fixmyjs.com</h1>
     <nav>
-      <a href="#">About</a>
+      <a id="about" href="#">About</a>
       <a href="https://github.com/goatslacker/fixmyjs.com">Source</a>
       <a href="https://github.com/goatslacker/jshint-autofix/downloads">Download</a>
       <a href="https://github.com/goatslacker/fixmyjs.com/issues">Report Issue</a>
@@ -21,15 +22,16 @@
   </section>
   <footer>&copy; <a href="http://josh.mit-license.org">license</a></footer>
   <span class="close">X</span>
-  <aside>
+  <datalist>
     <input name="asi" type="checkbox" value="asi" /> <label for="asi">asi</label> <br />
     <input name="debug" type="checkbox" value="debug" /> <label for="debug">debug</label> <br />
     <input name="immed" type="checkbox" value="immed" checked="checked" /> <label for="immed">immed</label> <br />
     <input name="laxbreak" type="checkbox" value="laxbreak" checked="checked" /> <label for="laxbreak">laxbreak</label> <br />
     <input name="sub" type="checkbox" value="sub" /> <label for="sub">sub</label> <br />
     <input name="white" type="checkbox" value="white" /> <label for="white">white</label> <br />
-  </aside>
+  </datalist>
   <a id="options" href="#">Options</a>
+  <aside>fixmyjs.com is meant to automatically fix your lint errors in a non-destructive way.</aside>
 </body>
   <script src="packages/jeesh/jeesh.min.js" type="application/javascript"></script>
   <script src="packages/jshint/jshint.js" type="application/javascript"></script>
