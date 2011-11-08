@@ -318,8 +318,6 @@
   };
 
   exports.fixMyJS = (function () {
-  //  var EventEmitter = require('events').EventEmitter;
-
     // copies over the results into one of our own objects
     function copyResults(result, config) {
       var r = {};
@@ -375,7 +373,7 @@
 
       // filter out errors we don't support.
       results = results.filter(function (v) {
-        return errors.hasOwnProperty(v.raw);
+        return v && errors.hasOwnProperty(v.raw);
       });
 
       // sort errors.
@@ -389,6 +387,10 @@
 
     return fixMyJS;
   }());
+
+  if (typeof module !== "undefined") {
+    module.exports = exports.fixMyJS;
+  }
 
 }.call(this));
 
