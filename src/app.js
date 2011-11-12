@@ -26,7 +26,7 @@
       code = this.editor.getSession().getValue();
       result = JSHINT(code, Options.options);
       if (!result) {
-        code = fixMyJS(JSHINT.data(), code);
+        code = fixMyJS(JSHINT.data(), code).run();
       }
       return this.editor.getSession().setValue(code);
     };

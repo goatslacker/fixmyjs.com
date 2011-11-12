@@ -21,7 +21,7 @@ class Editor
     code = @editor.getSession().getValue()
     result = JSHINT code, Options.options
 
-    code = fixMyJS JSHINT.data(), code if !result
+    code = fixMyJS(JSHINT.data(), code).run() if !result
 
     @editor.getSession().setValue code
 
