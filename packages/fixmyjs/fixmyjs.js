@@ -18,12 +18,10 @@
   };
 
   Code.prototype.getChr = function (r) {
-    var tabs;
     var lineNo = r.line;
+    var tabs = this.src[lineNo].split("\t");
 
-    tabs = this.src[lineNo].split("\t");
-
-    return r.character - tabs.length;
+    return r.character - ((tabs.length - 1) * (r.config.indent - 1)) - 1;
   };
 
 
