@@ -88,8 +88,11 @@
     function Options() {}
     Options.options = {
       asi: false,
+      auto_indent: false,
       debug: false,
       immed: true,
+      indent: 4,
+      indentpref: "spaces",
       lastsemic: false,
       laxbreak: true,
       shadow: false,
@@ -97,10 +100,8 @@
       supernew: false,
       white: false
     };
-    Options.toggleOption = function(opt) {
-      if (this.options.hasOwnProperty(opt)) {
-        return this.options[opt] = !this.options[opt];
-      }
+    Options.setOption = function(opt, val) {
+      return this.options[opt] = val;
     };
     Options.toggle = function() {
       if (Scrim.isShowing) {
@@ -157,9 +158,21 @@
     env = new Editor();
     $("datalist input").each(function(el) {
       return $(el).on("click", function(event) {
-        return Options.toggleOption(event.target.name);
+        var name;
+        name = event.target.name;
+        switch (name) {
+          case "indentpref":
+            return Options.setOption(name, event.target.value);
+          case "indent":
+            break;
+          default:
+            return Options.setOption(name, event.target.checked);
+        }
       });
     });
+    $("datalist input.optText").on("change", (function(event) {
+      return Options.setOption(event.target.name, Number(event.target.value));
+    }));
     $("span.close").on("click", function() {
       return Options.hide();
     });

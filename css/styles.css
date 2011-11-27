@@ -202,11 +202,10 @@ footer {
 datalist {
   position: absolute;
   overflow: hidden;
-  width: 100px;
-  height: 180px;
+  width: 120px;
   z-index: 9001;
   top: 90px;
-  left: -200px;
+  left: -220px;
   font-size: 20px;
   line-height: 20px;
   background: white;
@@ -225,6 +224,12 @@ datalist {
   transition: all 1s ease-in-out;
 }
 
+datalist input.optText {
+  width: 20px;
+  margin: 0 5px;
+  padding: 0;
+}
+
 span.close {
   background: black;
   color: white;
@@ -235,7 +240,7 @@ span.close {
   display: block;
   position: absolute;
   top: 85px;
-  left: 155px;
+  left: 175px;
   z-index: 9002;
   padding: 2px 6px;
   cursor: pointer;

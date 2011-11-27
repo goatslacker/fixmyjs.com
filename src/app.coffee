@@ -82,8 +82,11 @@ class Options
 
   @options:
     asi: false
+    auto_indent: false
     debug: false
     immed: true
+    indent: 4
+    indentpref: "spaces"
     lastsemic: false
     laxbreak: true
     shadow: false
@@ -91,8 +94,8 @@ class Options
     supernew: false
     white: false
 
-  @toggleOption: (opt) ->
-    @options[opt] = !@options[opt] if @options.hasOwnProperty opt
+  @setOption: (opt, val) ->
+    @options[opt] = val
 
   @toggle: ->
     if Scrim.isShowing
@@ -156,9 +159,16 @@ $.domReady ->
   # Event Listeners
   $("datalist input").each((el) ->
     $(el).on("click", (event) ->
-      Options.toggleOption event.target.name
+      name = event.target.name
+      switch name
+        when "indentpref" then Options.setOption name, event.target.value
+        when "indent" then # nothing
+        else Options.setOption name, event.target.checked
     )
   )
+  $("datalist input.optText").on("change", ((event) ->
+    Options.setOption event.target.name, Number event.target.value
+  ))
   $("span.close").on("click", -> Options.hide())
   $("#options").on("click", -> Options.toggle())
   $("button").on("click", (-> env.hint()))
