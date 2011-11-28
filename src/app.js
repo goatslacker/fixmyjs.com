@@ -22,13 +22,19 @@
       });
     }
     Editor.prototype.hint = function() {
-      var code, result;
+      var code, fix, result;
       code = this.editor.getSession().getValue();
       result = JSHINT(code, Options.options);
-      if (!result) {
-        code = fixMyJS(JSHINT.data(), code).run();
+      if (result) {
+        return true;
       }
-      return this.editor.getSession().setValue(code);
+      fix = fixMyJS(JSHINT.data(), code);
+      try {
+        fix.run();
+      } catch (error) {
+        alert(error + " Try hitting Fix It again.");
+      }
+      return this.editor.getSession().setValue(fix.getCode());
     };
     Editor.fullScreen = function() {
       var height, width, _ref;
@@ -95,9 +101,11 @@
       indentpref: "spaces",
       lastsemic: false,
       laxbreak: true,
+      maxerr: 500,
       shadow: false,
       sub: false,
       supernew: false,
+      trailing: true,
       white: false
     };
     Options.setOption = function(opt, val) {

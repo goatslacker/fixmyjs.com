@@ -20,10 +20,16 @@ class Editor
   hint: ->
     code = @editor.getSession().getValue()
     result = JSHINT code, Options.options
+    return yes if result
 
-    code = fixMyJS(JSHINT.data(), code).run() if !result
+    fix = fixMyJS JSHINT.data(), code
 
-    @editor.getSession().setValue code
+    try
+      fix.run()
+    catch error
+      alert error + " Try hitting Fix It again to fix the remaining errors."
+
+    @editor.getSession().setValue fix.getCode()
 
   @fullScreen: ->
     { width, height } = $("body").offset()
@@ -89,9 +95,11 @@ class Options
     indentpref: "spaces"
     lastsemic: false
     laxbreak: true
+    maxerr: 500
     shadow: false
     sub: false
     supernew: false
+    trailing: true
     white: false
 
   @setOption: (opt, val) ->
