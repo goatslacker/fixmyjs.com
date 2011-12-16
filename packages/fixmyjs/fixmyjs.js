@@ -180,7 +180,7 @@
  HTMLQuoteElement, HTMLScriptElement, HTMLSelectElement, HTMLStyleElement,
  HtmlTable, HTMLTableCaptionElement, HTMLTableCellElement, HTMLTableColElement,
  HTMLTableElement, HTMLTableRowElement, HTMLTableSectionElement,
- HTMLTextAreaElement, HTMLTitleElement, HTMLUListElement, HTMLVideoElement
+ HTMLTextAreaElement, HTMLTitleElement, HTMLUListElement, HTMLVideoElement,
  Iframe, IframeShim, Image, Int16Array, Int32Array, Int8Array,
  Insertion, InputValidator, JSON, Keyboard, Locale, LN10, LN2, LOG10E, LOG2E,
  MAX_VALUE, MIN_VALUE, Mask, Math, MenuItem, MoveAnimation, MooTools, Native,
@@ -204,7 +204,7 @@
  entityify, eqeqeq, eqnull, errors, es5, escape, esnext, eval, event, evidence, evil,
  ex, exception, exec, exps, expr, exports, FileReader, first, floor, focus,
  forin, fragment, frames, from, fromCharCode, fud, funcscope, funct, function, functions,
- g, gc, getComputedStyle, getRow, GLOBAL, global, globals, globalstrict,
+ g, gc, getComputedStyle, getRow, getter, GLOBAL, global, globals, globalstrict,
  hasOwnProperty, help, history, i, id, identifier, immed, implieds, importPackage, include,
  indent, indexOf, init, ins, instanceOf, isAlpha, isApplicationRunning, isArray,
  isDigit, isFinite, isNaN, iterator, java, join, jshint,
@@ -215,14 +215,14 @@
  nonew, nonstandard, nud, onbeforeunload, onblur, onerror, onevar, onecase, onfocus,
  onload, onresize, onunload, open, openDatabase, openURL, opener, opera, options, outer, param,
  parent, parseFloat, parseInt, passfail, plusplus, predef, print, process, prompt,
- proto, prototype, prototypejs, push, quit, range, raw, reach, reason, regexp,
+ proto, prototype, prototypejs, provides, push, quit, range, raw, reach, reason, regexp,
  readFile, readUrl, regexdash, removeEventListener, replace, report, require,
  reserved, resizeBy, resizeTo, resolvePath, resumeUpdates, respond, rhino, right,
  runCommand, scroll, screen, scripturl, scrollBy, scrollTo, scrollbar, search, seal,
- send, serialize, sessionStorage, setInterval, setTimeout, shift, slice, sort,spawn,
- split, stack, status, start, strict, sub, substr, supernew, shadow, supplant, sum,
- sync, test, toLowerCase, toString, toUpperCase, toint32, token, top, trailing, type,
- typeOf, Uint16Array, Uint32Array, Uint8Array, undef, undefs, unused, urls, validthis,
+ send, serialize, sessionStorage, setInterval, setTimeout, setter, setterToken, shift, slice,
+ smarttabs, sort, spawn, split, stack, status, start, strict, sub, substr, supernew, shadow,
+ supplant, sum, sync, test, toLowerCase, toString, toUpperCase, toint32, token, top, trailing,
+ type, typeOf, Uint16Array, Uint32Array, Uint8Array, undef, undefs, unused, urls, validthis,
  value, valueOf, var, version, WebSocket, white, window, Worker, wsh*/
 
 /*global exports: false */
@@ -312,6 +312,8 @@ var JSHINT = (function () {
             undef       : true, // if variables should be declared before used
             scripturl   : true, // if script-targeted URLs should be tolerated
             shadow      : true, // if variable shadowing should be tolerated
+            smarttabs   : true, // if smarttabs should be tolerated
+                                // (http://www.emacswiki.org/emacs/SmartTabs)
             strict      : true, // require the "use strict"; pragma
             sub         : true, // if all forms of subscript notation are tolerated
             supernew    : true, // if `new function () { ... };` and `new Object;`
@@ -465,7 +467,8 @@ var JSHINT = (function () {
             sum       : false,
             log       : false,
             exports   : false,
-            module    : false
+            module    : false,
+            provides  : false
         },
 
         devel = {
@@ -1010,7 +1013,13 @@ var JSHINT = (function () {
             character = 1;
             s = lines[line];
             line += 1;
-            at = s.search(/ \t|\t /);
+
+            // If smarttabs option is used check for spaces followed by tabs only.
+            // Otherwise check for any occurence of mixed tabs and spaces.
+            if (option.smarttabs)
+                at = s.search(/ \t/);
+            else
+                at = s.search(/ \t|\t /);
 
             if (at >= 0)
                 warningAt("Mixed spaces and tabs.", line, at + 1);
@@ -1060,8 +1069,8 @@ var JSHINT = (function () {
                         line, from, value);
                 } else if (option.nomen && (value.charAt(0) === '_' ||
                          value.charAt(value.length - 1) === '_')) {
-                    if (!option.node || token.id == '.' ||
-                            (value != '__dirname' && value != '__filename')) {
+                    if (!option.node || token.id === '.' ||
+                            (value !== '__dirname' && value !== '__filename')) {
                         warningAt("Unexpected {a} in '{b}'.", line, from, "dangling '_'", value);
                     }
                 }
@@ -1094,7 +1103,7 @@ var JSHINT = (function () {
 
                 // If the first line is a shebang (#!), make it a blank and move on.
                 // Shebangs are used by Node scripts.
-                if (lines[0] && lines[0].substr(0, 2) == '#!')
+                if (lines[0] && lines[0].substr(0, 2) === '#!')
                     lines[0] = '';
 
                 line = 0;
@@ -1768,7 +1777,7 @@ loop:   for (;;) {
                                 v, v.value);
                     }
                     obj.maxlen = b;
-                } else if (t.value == 'validthis') {
+                } else if (t.value === 'validthis') {
                     if (funct['(global)']) {
                         error("Option 'validthis' can't be used in a global scope.");
                     } else {
@@ -1920,9 +1929,9 @@ loop:   for (;;) {
                 }
             }
             while (rbp < nexttoken.lbp) {
-                isArray = token.value == 'Array';
+                isArray = token.value === 'Array';
                 advance();
-                if (isArray && token.id == '(' && nexttoken.id == ')')
+                if (isArray && token.id === '(' && nexttoken.id === ')')
                     warning("Use the array literal notation [].", token);
                 if (token.led) {
                     left = token.led(left);
@@ -2286,7 +2295,7 @@ loop:   for (;;) {
                 // `undefined` as a function param is a common pattern to protect
                 // against the case when somebody does `undefined = true` and
                 // help with minification. More info: https://gist.github.com/315916
-                if (!fnparam || token.value != 'undefined') {
+                if (!fnparam || token.value !== 'undefined') {
                     warning("Expected an identifier and instead saw '{a}' (a reserved word).",
                             token, token.id);
                 }
@@ -2338,11 +2347,8 @@ loop:   for (;;) {
     function statement(noindent) {
         var i = indent, r, s = scope, t = nexttoken;
 
-// We don't like the empty statement.
-
-        if (t.id === ';') {
-            warning("Unnecessary semicolon.", t);
-            advance(';');
+        if (t.id === ";") {
+            advance(";");
             return;
         }
 
@@ -2386,8 +2392,8 @@ loop:   for (;;) {
                     // If this is the last statement in a block that ends on
                     // the same line *and* option lastsemic is on, ignore the warning.
                     // Otherwise, complain about missing semicolon.
-                    if (!option.lastsemic || nexttoken.id != '}' ||
-                            nexttoken.line != token.line) {
+                    if (!option.lastsemic || nexttoken.id !== '}' ||
+                            nexttoken.line !== token.line) {
                         warningAt("Missing semicolon.", token.line, token.character);
                     }
                 }
@@ -2649,7 +2655,7 @@ loop:   for (;;) {
                 // Operators typeof and delete do not raise runtime errors even if
                 // the base object of a reference is null so no need to display warning
                 // if we're inside of typeof or delete.
-                if (anonname != 'typeof' && anonname != 'delete' &&
+                if (anonname !== 'typeof' && anonname !== 'delete' &&
                     option.undef && typeof predefined[v] !== 'boolean') {
                     isundef(funct, "'{a}' is not defined.", token, v);
                 }
@@ -2683,7 +2689,7 @@ loop:   for (;;) {
                         // Operators typeof and delete do not raise runtime errors even
                         // if the base object of a reference is null so no need to
                         // display warning if we're inside of typeof or delete.
-                        if (anonname != 'typeof' && anonname != 'delete' && option.undef) {
+                        if (anonname !== 'typeof' && anonname !== 'delete' && option.undef) {
                             isundef(funct, "'{a}' is not defined.", token, v);
                         }
                         funct[v] = true;
@@ -2795,7 +2801,7 @@ loop:   for (;;) {
     bitwise('^', 'bitxor', 80);
     bitwise('&', 'bitand', 90);
     relation('==', function (left, right) {
-        var eqnull = option.eqnull && (left.value == 'null' || right.value == 'null');
+        var eqnull = option.eqnull && (left.value === 'null' || right.value === 'null');
 
         if (!eqnull && option.eqeqeq)
             warning("Expected '{a}' and instead saw '{b}'.", this, '===', '==');
@@ -2809,7 +2815,7 @@ loop:   for (;;) {
     relation('===');
     relation('!=', function (left, right) {
         var eqnull = option.eqnull &&
-                (left.value == 'null' || right.value == 'null');
+                (left.value === 'null' || right.value === 'null');
 
         if (!eqnull && option.eqeqeq) {
             warning("Expected '{a}' and instead saw '{b}'.",
@@ -3213,6 +3219,22 @@ loop:   for (;;) {
     (function (x) {
         x.nud = function () {
             var b, f, i, j, p, seen = {}, t;
+            var prop, acc = {}; // Accessor methods
+
+            function saveSetter(name, token) {
+                if (!acc[name]) {
+                    acc[name] = {};
+                }
+                acc[name].setter = true;
+                acc[name].setterToken = token;
+            }
+
+            function saveGetter(name) {
+                if (!acc[name]) {
+                    acc[name] = {};
+                }
+                acc[name].getter = true;
+            }
 
             b = token.line !== nexttoken.line;
             if (b) {
@@ -3237,6 +3259,7 @@ loop:   for (;;) {
                     if (!i) {
                         error("Missing property name.");
                     }
+                    saveGetter(i);
                     t = nexttoken;
                     adjacent(token, nexttoken);
                     f = doFunction();
@@ -3248,13 +3271,17 @@ loop:   for (;;) {
                         warning("Unexpected parameter '{a}' in get {b} function.", t, p[0], i);
                     }
                     adjacent(token, nexttoken);
-                    advance(',');
-                    indentation();
+                } else if (nexttoken.value === 'set' && peek().id !== ':') {
                     advance('set');
-                    j = property_name();
-                    if (i !== j) {
-                        error("Expected {a} and instead saw {b}.", token, i, j);
+                    if (!option.es5) {
+                        error("get/set are ES5 features.");
                     }
+                    i = property_name();
+                    if (!i) {
+                        error("Missing property name.");
+                    }
+                    saveSetter(i, nexttoken);
+                    seen[i] = false;
                     t = nexttoken;
                     adjacent(token, nexttoken);
                     f = doFunction();
@@ -3292,6 +3319,15 @@ loop:   for (;;) {
                 indentation();
             }
             advance('}', this);
+
+            // Check for lonely setters if in the ES5 mode.
+            if (option.es5) {
+                for (prop in acc) {
+                    if (acc.hasOwnProperty(prop) && acc[prop].setter && !acc[prop].getter) {
+                        warning("Setter is defined without getter.", acc[prop].setterToken);
+                    }
+                }
+            }
             return this;
         };
         x.fud = function () {
@@ -4274,7 +4310,7 @@ loop:   for (;;) {
 }());
 
 // Make JSHINT a Node module, if possible.
-if (typeof exports == 'object' && exports)
+if (typeof exports === 'object' && exports)
     exports.JSHINT = JSHINT;
 (function () {
 // Global object.
@@ -4314,14 +4350,15 @@ if (typeof exports == 'object' && exports)
 // **r** is the JSHint object related to the error
 //
 // returns Number
+//
+// Tabs are special, they count as two characters in text
+// and as one character by the JSHint parser.
+// If there are tabs then indentation is important, we'll need to know
+// how many characters each tab is supposed to be worth.
   Code.prototype.getChr = function (r) {
     var lineNo = r.line;
-    // tabs are special, they count as two characters in text
-    // and as one character by the JSHint parser.
     var tabs = this.src[lineNo].split("\t");
 
-    // if there are tabs then indentation is important, we'll need to know
-    // how many characters each tab is supposed to be worth.
     return r.character - ((tabs.length - 1) * (r.config.indent - 1)) - 1;
   };
 
@@ -4369,19 +4406,40 @@ if (typeof exports == 'object' && exports)
 // returns String
     var Fix = {
 
-// Adds a semicolon at the position specified by JSHint
+// Adds a semicolon at the position specified by JSHint.
+//
+// For those that prefer to end their statements with
+// a semicolon fixmyjs will automatically insert a semicolon
+// wherever one is thought to be missing.
+//
+// Example:
+//
+// `var foo = 1` -> `var foo = 1;`
       addSemicolon: function (str, o, code) {
         var chr = code.getChr(o);
         return helpers.insertIntoString(str, chr, ";");
       },
 
-// Adds a space at the position specified by JSHint
+// Adds a space at the position specified by JSHint.
+//
+// Related to the `white` option in JSHint. It is
+// meant for beautifying code and adds spaces where
+// spaces are supposed to be according to certain
+// authorities of the language.
+//
+// Example:
+//
+// `var a = function(){}` -> `var a = function () {}`
       addSpace: function (str, o, code) {
         var chr = code.getChr(o);
         return helpers.insertIntoString(str, chr, " ");
       },
 
-// If a var is already defined `shadow` then we remove the var.
+// If a var is already defined, `shadow`, then we remove the var.
+//
+// Example:
+//
+// `var a = 1; var a = 2;` -> `var a = 1; a = 2`
       alreadyDefined: function (str, o) {
         var a = o.a;
         var rx = new RegExp("(.*)(var " + a + ")");
@@ -4404,6 +4462,10 @@ if (typeof exports == 'object' && exports)
       },
 
 // Converts from square bracket notation to dot notation.
+//
+// Example:
+//
+// `person['name']` -> `person.name`
       dotNotation: function (str, o) {
         var dot = o.a;
         var rx = new RegExp("\\[[\"']" + dot + "[\"']\\]");
@@ -4418,6 +4480,10 @@ if (typeof exports == 'object' && exports)
       },
 
 // Immediate functions are executed within the parenthesis.
+//
+// By wrapping immediate functions in parenthesis you indicate
+// that the expression is the result of a function and not the
+// function itself.
       immed: function (str) {
         var rx = /\)\((.*)\);/;
         var params;
@@ -4430,7 +4496,16 @@ if (typeof exports == 'object' && exports)
         return str;
       },
 
-// Auto-indents.
+// Auto-indents. Based on your preferences of `spaces`
+// or `tabs`.
+//
+// fixmyjs will not automatically indent your code unless
+// you have the `indentpref` option set to your preference
+// and `auto_indent` is set to true in your `.jshintrc` file.
+//
+// You may also want to configure the `indent` option to the
+// desired amount of characters you wish to indent. The default
+// set by JSHint is four.
       indent: function (str, o) {
         var indent = o.b;
         var config = o.config;
@@ -4474,6 +4549,14 @@ if (typeof exports == 'object' && exports)
       },
 
 // Adds a zero when there is a leading decimal.
+//
+// A leading decimal can be confusing if there isn't a
+// zero in front of it since the dot is used for calling
+// methods of an object. Plus it's easy to miss the dot.
+//
+// Example:
+//
+// `.5` -> `0.5`
       leadingDecimal: function (str) {
         var rx = /([\D])(\.[0-9]*)/;
 
@@ -4505,12 +4588,64 @@ if (typeof exports == 'object' && exports)
         return str;
       },
 
+// You shouldn't delete vars. This will remove the delete statement
+// and instead set the variable to undefined.
+//
+// Example: `delete foo;` -> `foo = undefined;`
+      noDeleteVar: function (str) {
+        var rx = /delete ([a-zA-Z_$][0-9a-zA-Z_$]*)/;
+        var exec;
+        if (rx.test(str)) {
+          exec = rx.exec(str);
+          str = str.replace(exec[0], exec[1] + " = undefined");
+        }
+        return str;
+      },
+
+// Removes `new` when it's used as a statement.
+// Only works if option `nonew` is set to true.
+//
+// Example: `new Ajax()` -> `Ajax()`
+      noNew: function (str) {
+        var rx = /new ([a-zA-Z_$][0-9a-zA-Z_$]*)/;
+        var exec;
+        var rmnew = "";
+        if (rx.test(str)) {
+          exec = rx.exec(str);
+          rmnew = exec[0].replace("new ", "");
+          str = str.replace(exec[0], rmnew);
+        }
+        return str;
+      },
+
 // Converts assignments from Object to Literal form.
       objectLiteral: function (str) {
         return str.replace("new Object()", "{}");
       },
 
+// Removes `new` when attempting to use a function not meant to
+// be a constructor.
+//
+// Uses RegEx to determine where the error occurs. If there's a match
+// then we extract the 1st and 2nd value of the result of the RegExp
+// execution, and use them in String replace.
+//
+// Example: `new Number(16)` -> `Number(16)`
+      objNoConstruct: function (str) {
+        var rx = /new (Number|String|Boolean|Math|JSON)/;
+        var exec;
+        if (rx.test(str)) {
+          exec = rx.exec(str);
+          str = str.replace(exec[0], exec[1]);
+        }
+        return str;
+      },
+
 // Uses isNaN function rather than comparing to NaN.
+//
+// It's the same reason you shouldn't compare with undefined.
+// NaN can be redefined. Although comparing to NaN is faster
+// than using the isNaN function.
       useIsNaN: function (str) {
         var rx = /([a-zA-Z_$][0-9a-zA-Z_$]*)( )*(=|!)(=|==)( )*NaN/;
         var exec;
@@ -4527,6 +4662,19 @@ if (typeof exports == 'object' && exports)
       },
 
 // Adds radix parameter to parseInt statements.
+//
+// Although this parameter is optional, it's good practice
+// to add it so that the function won't assume the number is
+// octal.
+//
+// In the example below we have a sample Credit Card security
+// code which is padded by a zero. By adding the radix parameter
+// we are telling the compiler the base of the number is being
+// passed.
+//
+// Example:
+//
+// `parseInt(0420)` -> `parseInt(0420, 10)`
       radix: function (str) {
         var rx = /parseInt\((.*)\)/;
         var exec;
@@ -4547,16 +4695,28 @@ if (typeof exports == 'object' && exports)
       },
 
 // Removes debugger statements.
+//
+// Debugger statements can be useful for debugging
+// but some browsers don't support them so they shouldn't
+// be in production.
       rmDebugger: function () {
         return "";
       },
 
 // Removes undefined when variables are initialized to it.
+//
+// It's not necessary to initialize variables to undefined since
+// they are already initialized to undefined by declaring them.
+//
+// Example:
+//
+// `var foo = undefined;` -> `var foo;`
       rmUndefined: function (str) {
         return str.replace(/( )*=( )*undefined/, "");
       },
 
-// Removes trailing whitespace.
+// Removes any whitespace at the end of the line.
+// Trailing whitespace sucks. It must die.
       rmTrailingWhitespace: function (str) {
         return str.replace(/\s+$/g, "");
       },
@@ -4574,7 +4734,11 @@ if (typeof exports == 'object' && exports)
         throw new Error("Too many errors reported by JSHint.");
       },
 
-// Removes a trailing decimal where not necessary.
+// Removes a trailing decimal where it's not necessary.
+//
+// Example:
+//
+// `12.` -> `12`
       trailingDecimal: function (str) {
         var rx = /([0-9]*)\.(\D)/;
         var result;
@@ -4582,6 +4746,22 @@ if (typeof exports == 'object' && exports)
         if (rx.test(str)) {
           result = rx.exec(str);
           str = str.replace(rx, result[1] + result[2]);
+        }
+
+        return str;
+      },
+
+// Wraps RegularExpression literals in parenthesis to
+// disambiguate the slash operator.
+//
+// Example: `return /hello/;` -> `return (/hello/);`
+      wrapRegExp: function (str) {
+        var rx = /\/(.*)\/\w?/;
+        var result;
+
+        if (rx.test(str)) {
+          result = rx.exec(str);
+          str = str.replace(rx, "(" + result[0] + ")");
         }
 
         return str;
@@ -4614,32 +4794,36 @@ if (typeof exports == 'object' && exports)
 // **priority** Is the order in which the error will be fixed, lower is sooner.
 // **error** is a string describing the raw input of the error.
 // **fn** is the function which handles the fixing.
-  w(0, "Extra comma.",                                                    fix.rmChar);
-  w(0, "Missing semicolon.",                                              fix.addSemicolon);
-  w(0, "Missing space after '{a}'.",                                      fix.addSpace);
-  w(0, "Unexpected space after '{a}'.",                                   fix.rmChar);
-  w(0, "Unnecessary semicolon.",                                          fix.rmChar);
-  w(1, "'{a}' is already defined.",                                       fix.alreadyDefined);
-  w(1, "['{a}'] is better written in dot notation.",                      fix.dotNotation);
-  w(1, "A leading decimal point can be confused with a dot: '.{a}'.",     fix.leadingDecimal);
-  w(1, "A trailing decimal point can be confused with a dot '{a}'.",      fix.trailingDecimal);
-  w(1, "All 'debugger' statements should be removed.",                    fix.rmDebugger);
-  w(1, "Expected '{a}' to have an indentation at {b} instead at {c}.",    fix.indent);
-  w(1, "It is not necessary to initialize '{a}' to 'undefined'.",         fix.rmUndefined);
-  w(1, "Missing '()' invoking a constructor.",                            fix.invokeConstructor);
-  w(1, "Missing radix parameter.",                                        fix.radix);
-  w(1, "Mixed spaces and tabs.",                                          fix.mixedSpacesNTabs);
-  w(1, "Move the invocation into the parens that contain the function.",  fix.immed);
-  w(1, "Trailing whitespace.",                                            fix.rmTrailingWhitespace);
-  w(1, "Use the isNaN function to compare with NaN.",                     fix.useIsNaN);
-  w(1, "Use the array literal notation [].",                              fix.arrayLiteral);
-  w(1, "Use the object literal notation {}.",                             fix.objectLiteral);
-  w(2, "Too many errors.",                                                fix.tme);
+  w(0, "Extra comma.",                                                            fix.rmChar);
+  w(0, "Missing semicolon.",                                                      fix.addSemicolon);
+  w(0, "Missing space after '{a}'.",                                              fix.addSpace);
+  w(0, "Unexpected space after '{a}'.",                                           fix.rmChar);
+  w(0, "Unnecessary semicolon.",                                                  fix.rmChar);
+  w(1, "'{a}' is already defined.",                                               fix.alreadyDefined);
+  w(1, "['{a}'] is better written in dot notation.",                              fix.dotNotation);
+  w(1, "A leading decimal point can be confused with a dot: '.{a}'.",             fix.leadingDecimal);
+  w(1, "A trailing decimal point can be confused with a dot '{a}'.",              fix.trailingDecimal);
+  w(1, "All 'debugger' statements should be removed.",                            fix.rmDebugger);
+  w(1, "Do not use {a} as a constructor.",                                        fix.objNoConstruct);
+  w(1, "Do not use 'new' for side effects.",                                      fix.noNew);
+  w(1, "Expected '{a}' to have an indentation at {b} instead at {c}.",            fix.indent);
+  w(1, "It is not necessary to initialize '{a}' to 'undefined'.",                 fix.rmUndefined);
+  w(1, "Missing '()' invoking a constructor.",                                    fix.invokeConstructor);
+  w(1, "Missing radix parameter.",                                                fix.radix);
+  w(1, "Mixed spaces and tabs.",                                                  fix.mixedSpacesNTabs);
+  w(1, "Move the invocation into the parens that contain the function.",          fix.immed);
+  w(1, "Trailing whitespace.",                                                    fix.rmTrailingWhitespace);
+  w(1, "Use the isNaN function to compare with NaN.",                             fix.useIsNaN);
+  w(1, "Use the array literal notation [].",                                      fix.arrayLiteral);
+  w(1, "Use the object literal notation {}.",                                     fix.objectLiteral);
+  w(1, "Variables should not be deleted.",                                        fix.noDeleteVar);
+  w(1, "Wrap the /regexp/ literal in parens to disambiguate the slash operator.", fix.wrapRegExp);
+  w(2, "Too many errors.",                                                        fix.tme);
 
 
 // fixMyJS is part of the global object
   exports.fixMyJS = (function () {
-// copies over the results into one of our own objects
+// Copies over the results into one of our own objects
 // we decrement r.line by one becuse Arrays start at 0.
 // and we pass the config object to r.
     function copyResults(result, config) {

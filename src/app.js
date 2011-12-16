@@ -1,9 +1,11 @@
 (function() {
   var About, Editor, Options, Scrim;
-  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+
   Editor = (function() {
+
     function Editor() {
       var JavaScriptMode, canon;
+      var _this = this;
       this.editor = ace.edit("code");
       this.editor.setTheme("ace/theme/mango");
       JavaScriptMode = require("ace/mode/javascript").Mode;
@@ -16,26 +18,26 @@
           mac: "Command-B",
           sender: "editor"
         },
-        exec: __bind(function(env, args, request) {
-          return this.hint();
-        }, this)
+        exec: function(env, args, request) {
+          return _this.hint();
+        }
       });
     }
+
     Editor.prototype.hint = function() {
       var code, fix, result;
       code = this.editor.getSession().getValue();
       result = JSHINT(code, Options.options);
-      if (result) {
-        return true;
-      }
+      if (result) return true;
       fix = fixMyJS(JSHINT.data(), code);
       try {
         fix.run();
       } catch (error) {
-        alert(error + " Try hitting Fix It again.");
+        alert(error + " Try hitting Fix It again to fix the remaining errors.");
       }
       return this.editor.getSession().setValue(fix.getCode());
     };
+
     Editor.fullScreen = function() {
       var height, width, _ref;
       _ref = $("body").offset(), width = _ref.width, height = _ref.height;
@@ -48,13 +50,19 @@
         height: "" + (height - 156) + "px"
       });
     };
+
     Editor.getOptions = function() {
       return {};
     };
+
     return Editor;
+
   })();
+
   Scrim = (function() {
+
     function Scrim() {}
+
     Scrim.scrim = (function() {
       var el, height, val, width, _ref;
       _ref = $("body").offset(), width = _ref.width, height = _ref.height;
@@ -72,7 +80,9 @@
       }).hide();
       return val;
     })();
+
     Scrim.isShowing = false;
+
     Scrim.toggle = function() {
       if (this.isShowing) {
         return Scrim.hide();
@@ -80,18 +90,25 @@
         return Scrim.show();
       }
     };
+
     Scrim.show = function() {
       this.isShowing = !this.isShowing;
       return Scrim.scrim.show();
     };
+
     Scrim.hide = function() {
       this.isShowing = !this.isShowing;
       return Scrim.scrim.hide();
     };
+
     return Scrim;
+
   })();
+
   Options = (function() {
+
     function Options() {}
+
     Options.options = {
       asi: false,
       auto_indent: false,
@@ -108,9 +125,11 @@
       trailing: true,
       white: false
     };
+
     Options.setOption = function(opt, val) {
       return this.options[opt] = val;
     };
+
     Options.toggle = function() {
       if (Scrim.isShowing) {
         return Options.hide();
@@ -118,15 +137,15 @@
         return Options.show();
       }
     };
+
     Options.show = function() {
       Scrim.show();
       $("datalist").addClass("open");
       return setTimeout((function() {
-        if (Scrim.isShowing) {
-          return $("span.close").addClass("visible");
-        }
+        if (Scrim.isShowing) return $("span.close").addClass("visible");
       }), 1000);
     };
+
     Options.hide = function() {
       $("span.close").removeClass("visible");
       return setTimeout((function() {
@@ -136,30 +155,37 @@
         }
       }), 200);
     };
+
     return Options;
+
   })();
+
   About = (function() {
+
     function About() {}
+
     About.isOpen = false;
+
     About.close = function() {
-      if (this.isOpen) {
-        $("aside").removeClass("bounceIn").addClass("bounceOut");
-      }
-      setTimeout((__bind(function() {
-        if (!this.isOpen) {
-          return $("aside").hide();
-        }
-      }, this)), 1000);
+      var _this = this;
+      if (this.isOpen) $("aside").removeClass("bounceIn").addClass("bounceOut");
+      setTimeout((function() {
+        if (!_this.isOpen) return $("aside").hide();
+      }), 1000);
       clearTimeout(this.timer);
       return this.isOpen = false;
     };
+
     About.open = function() {
       $("aside").removeClass("bounceOut").addClass("bounceIn").show();
       this.timer = setTimeout(About.close, 7500);
       return this.isOpen = true;
     };
+
     return About;
+
   })();
+
   $.domReady(function() {
     var env;
     Editor.fullScreen();
@@ -197,4 +223,5 @@
       return About.close();
     }).hide().addClass("animated");
   });
+
 }).call(this);
