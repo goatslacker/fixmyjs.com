@@ -4676,7 +4676,8 @@ if (typeof exports === 'object' && exports)
 //
 // `parseInt(0420)` -> `parseInt(0420, 10)`
       radix: function (str) {
-        var rx = /parseInt\((.*)\)/;
+		//@todo: Do proper parenthesis parsing
+        var rx = /parseInt\(([^\)]+)\)/;
         var exec;
 
         if (rx.test(str)) {
