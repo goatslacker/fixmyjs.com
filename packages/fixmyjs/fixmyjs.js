@@ -4558,7 +4558,7 @@ if (typeof exports === 'object' && exports)
 //
 // `.5` -> `0.5`
       leadingDecimal: function (str) {
-        var rx = /([\D])(\.[0-9]*)/;
+        var rx = /([\D])(\.[0-9]+)/;
 
         var result;
 
@@ -4740,7 +4740,7 @@ if (typeof exports === 'object' && exports)
 //
 // `12.` -> `12`
       trailingDecimal: function (str) {
-        var rx = /([0-9]*)\.(\D)/;
+        var rx = /([0-9]+)\.(\D)/;
         var result;
 
         if (rx.test(str)) {
