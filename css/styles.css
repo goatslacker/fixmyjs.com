@@ -148,14 +148,6 @@ nav a:hover {
   background: #da1013 !important;
 }
 
-section {
-  position: relative;
-}
-
-code {
-  position: absolute;
-}
-
 footer {
   font-family: Helvetica;
   font-size: 12px;
@@ -199,7 +191,7 @@ footer {
   transition: all 0.2s ease-in-out;
 }
 
-datalist {
+section.options {
   position: absolute;
   overflow: hidden;
   width: 120px;
@@ -224,7 +216,7 @@ datalist {
   transition: all 1s ease-in-out;
 }
 
-datalist input.optText {
+section.options input.optText {
   width: 20px;
   margin: 0 5px;
   padding: 0;
@@ -267,19 +259,19 @@ span.close.visible {
   transition: all 0.2s ease-in-out;
 }
 
-datalist input {
+section.options input {
   float: left;
 }
 
-datalist label {
+section.options label {
   float: left;
 }
 
-datalist br {
+section.options br {
   clear: both;
 }
 
-datalist.open {
+section.options.open {
   left: -10px;
   -webkit-transition: all 1s ease-in-out;
   -moz-transition: all 1s ease-in-out;
@@ -365,4 +357,16 @@ button:active {
   background-image: -ms-linear-gradient(top, rgba(30, 30, 30, 0.9) 0%, rgba(20, 20, 20, 0.9) 50%, rgba(10, 10, 10, 0.9) 50%, rgba(0, 0, 0, 0.9) 100%);
   background-image: -o-linear-gradient(top, rgba(30, 30, 30, 0.9) 0%, rgba(20, 20, 20, 0.9) 50%, rgba(10, 10, 10, 0.9) 50%, rgba(0, 0, 0, 0.9) 100%);
   background-image: linear-gradient(top, rgba(30, 30, 30, 0.9) 0%, rgba(20, 20, 20, 0.9) 50%, rgba(10, 10, 10, 0.9) 50%, rgba(0, 0, 0, 0.9) 100%);
+}
+
+.CodeMirror {
+  font-family: Inconsolata;
+  font-size: 16px;
+  background-color:white;
+  border-radius: 3px;
+  border: solid 1px #999;
+}
+
+.codemirror-scroll {
+  height: 500px !important;
 }

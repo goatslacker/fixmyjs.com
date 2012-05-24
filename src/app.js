@@ -4,29 +4,16 @@
   Editor = (function() {
 
     function Editor() {
-      var JavaScriptMode, canon;
-      var _this = this;
-      this.editor = ace.edit("code");
-      this.editor.setTheme("ace/theme/mango");
-      JavaScriptMode = require("ace/mode/javascript").Mode;
-      this.editor.getSession().setMode(new JavaScriptMode);
-      canon = require("pilot/canon");
-      canon.addCommand({
-        name: "myCommand",
-        bindKey: {
-          win: "Ctrl-B",
-          mac: "Command-B",
-          sender: "editor"
-        },
-        exec: function(env, args, request) {
-          return _this.hint();
-        }
+      this.editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+        theme: 'default',
+        lineNumbers: true
       });
+      this.editor.focus();
     }
 
     Editor.prototype.hint = function() {
       var code, fix, result;
-      code = this.editor.getSession().getValue();
+      code = this.editor.getValue();
       result = JSHINT(code, Options.options);
       if (result) return true;
       fix = fixMyJS(JSHINT.data(), code);
@@ -35,20 +22,7 @@
       } catch (error) {
         alert(error + " Try hitting Fix It again to fix the remaining errors.");
       }
-      return this.editor.getSession().setValue(fix.getCode());
-    };
-
-    Editor.fullScreen = function() {
-      var height, width, _ref;
-      _ref = $("body").offset(), width = _ref.width, height = _ref.height;
-      $("section").css({
-        width: "" + width + "px",
-        height: "" + (height - 76) + "px"
-      });
-      return $("code").css({
-        width: "" + width + "px",
-        height: "" + (height - 156) + "px"
-      });
+      return this.editor.setValue(fix.getCode());
     };
 
     Editor.getOptions = function() {
@@ -140,7 +114,7 @@
 
     Options.show = function() {
       Scrim.show();
-      $("datalist").addClass("open");
+      $("section.options").addClass("open");
       return setTimeout((function() {
         if (Scrim.isShowing) return $("span.close").addClass("visible");
       }), 1000);
@@ -150,7 +124,7 @@
       $("span.close").removeClass("visible");
       return setTimeout((function() {
         if (Scrim.isShowing) {
-          $("datalist").removeClass("open");
+          $("section.options").removeClass("open");
           return Scrim.hide();
         }
       }), 200);
@@ -188,9 +162,8 @@
 
   $.domReady(function() {
     var env;
-    Editor.fullScreen();
     env = new Editor();
-    $("datalist input").each(function(el) {
+    $("section.options input").each(function(el) {
       return $(el).on("click", function(event) {
         var name;
         name = event.target.name;
@@ -204,7 +177,7 @@
         }
       });
     });
-    $("datalist input.optText").on("change", (function(event) {
+    $("section.options input.optText").on("change", (function(event) {
       return Options.setOption(event.target.name, Number(event.target.value));
     }));
     $("span.close").on("click", function() {

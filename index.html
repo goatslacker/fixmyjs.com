@@ -4,6 +4,7 @@
   <link href='http://fonts.googleapis.com/css?family=Redressed' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
   <link href="css/animate.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="packages/CodeMirror2/lib/codemirror.css">
 </head>
 <body>
   <header>
@@ -17,12 +18,12 @@
     <a href="https://github.com/jshint/fixmyjs"><img style="position: absolute; top: 0; right: 0; border: 0; z-index: 9001" src="https://a248.e.akamai.net/assets.github.com/img/e6bef7a091f5f3138b8cd40bc3e114258dd68ddf/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub"></a>
   </header>
   <section>
-    <code id="code"></code>
+    <textarea id="code" style="display: none"></textarea>
     <button>Fix It!</button>
   </section>
   <footer>&copy; <a href="http://josh.mit-license.org">license</a></footer>
   <span class="close">X</span>
-  <datalist>
+  <section class="options">
     <input name="asi" type="checkbox" value="asi" /> <label for="asi">asi</label> <br />
     <input name="auto_indent" type="checkbox" value="auto_indent" /> <label for="auto_indent">auto_indent</label> <br />
     <input name="debug" type="checkbox" value="debug" /> <label for="debug">debug</label> <br />
@@ -37,7 +38,7 @@
     <input name="supernew" type="checkbox" value="supernew" /> <label for="supernew">supernew</label> <br />
     <input name="trailing" type="checkbox" value="trailing" checked="checked" /> <label for="trailing">trailing</label> <br />
     <input name="white" type="checkbox" value="white" /> <label for="white">white</label> <br />
-  </datalist>
+  </section>
   <a id="options" href="#">Options</a>
   <aside>
     <p>fixmyjs.com is meant to automatically fix your lint errors in a non-destructive way.</p>
@@ -46,9 +47,8 @@
   </aside>
 </body>
   <script src="packages/jeesh/jeesh.min.js" type="application/javascript"></script>
-  <script src="packages/ace/ace.js" type="application/javascript" charset="utf-8"></script>
-  <script src="packages/ace/theme-mango.js" type="application/javascript" charset="utf-8"></script>
-  <script src="packages/ace/mode-javascript.js" type="application/javascript" charset="utf-8"></script>
+  <script src="packages/CodeMirror2/lib/codemirror.js"></script>
+  <script src="packages/CodeMirror2/mode/javascript/javascript.js"></script>
   <script src="packages/fixmyjs/fixmyjs.js" type="application/javascript"></script>
   <script src="src/app.js" type="application/javascript"></script>
   <script type="text/javascript">
