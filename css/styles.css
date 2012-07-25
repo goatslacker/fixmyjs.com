@@ -118,7 +118,7 @@ header {
 header h1 {
   font-size: 3em;
   color: #da1013;
-  font-family: Redressed, cursive;
+  font-family: Helvetica;
 }
 
 nav {
@@ -152,6 +152,7 @@ footer {
   font-family: Helvetica;
   font-size: 12px;
   position: absolute;
+  left: 40px;
   bottom: 5px;
 }
 

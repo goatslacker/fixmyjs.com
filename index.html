@@ -1,7 +1,6 @@
 <html>
 <head>
   <link href="css/styles.css" rel="stylesheet" type="text/css" />
-  <link href='http://fonts.googleapis.com/css?family=Redressed' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
   <link href="css/animate.css" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" href="packages/CodeMirror2/lib/codemirror.css">
@@ -11,9 +10,8 @@
     <h1>fixmyjs.com</h1>
     <nav>
       <a id="about" href="#">About</a>
-      <a href="https://github.com/goatslacker/fixmyjs.com">Source</a>
       <a href="https://raw.github.com/jshint/fixmyjs/master/fixmyjs.js">Download</a>
-      <a href="https://github.com/goatslacker/fixmyjs.com/issues">Report Issue</a>
+      <a href="https://github.com/jshint/fixmyjs/issues">Report Issue</a>
     </nav>
     <a href="https://github.com/jshint/fixmyjs"><img style="position: absolute; top: 0; right: 0; border: 0; z-index: 9001" src="https://a248.e.akamai.net/assets.github.com/img/e6bef7a091f5f3138b8cd40bc3e114258dd68ddf/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub"></a>
   </header>
@@ -33,7 +31,6 @@
     <input type="radio" name="indentpref" value="tabs" /> <label for="indentpref">tabs</label> <br />
     <input name="lastsemic" type="checkbox" value="lastsemic" /> <label for="lastsemic">lastsemic</label> <br />
     <input name="laxbreak" type="checkbox" value="laxbreak" checked="checked" /> <label for="laxbreak">laxbreak</label> <br />
-    <input name="shadow" type="checkbox" value="shadow" /> <label for="shadow">shadow</label> <br />
     <input name="sub" type="checkbox" value="sub" /> <label for="sub">sub</label> <br />
     <input name="supernew" type="checkbox" value="supernew" /> <label for="supernew">supernew</label> <br />
     <input name="trailing" type="checkbox" value="trailing" checked="checked" /> <label for="trailing">trailing</label> <br />
@@ -43,13 +40,14 @@
   <aside>
     <p>fixmyjs.com is meant to automatically fix your lint errors in a non-destructive way.</p>
     <p>It uses <a href="https://github.com/jshint/jshint">JSHint</a> to detect the errors</p>
-    <p>For more information, <a href="https://github.com/goatslacker/jshint-autofix">go here</a>.</p>
+    <p>For more information, <a href="https://github.com/jshint/fixmyjs">go here</a>.</p>
   </aside>
 </body>
+  <script src="https://raw.github.com/jshint/jshint/master/jshint.js"></script>
+  <script src="https://raw.github.com/jshint/fixmyjs/master/fixmyjs.js"></script>
   <script src="packages/jeesh/jeesh.min.js" type="application/javascript"></script>
   <script src="packages/CodeMirror2/lib/codemirror.js"></script>
   <script src="packages/CodeMirror2/mode/javascript/javascript.js"></script>
-  <script src="packages/fixmyjs/fixmyjs.js" type="application/javascript"></script>
   <script src="src/app.js" type="application/javascript"></script>
   <script type="text/javascript">
 

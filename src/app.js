@@ -38,8 +38,7 @@
     function Scrim() {}
 
     Scrim.scrim = (function() {
-      var el, height, val, width, _ref;
-      _ref = $("body").offset(), width = _ref.width, height = _ref.height;
+      var el, val;
       el = document.createElement("div");
       document.body.appendChild(el);
       val = $(el);
@@ -49,8 +48,8 @@
         left: 0,
         background: "rgba(0, 0, 0, 0.8)",
         zIndex: "9000",
-        width: "" + width + "px",
-        height: "" + height + "px"
+        width: "1920px",
+        height: "1080px"
       }).hide();
       return val;
     })();
@@ -93,7 +92,6 @@
       lastsemic: false,
       laxbreak: true,
       maxerr: 500,
-      shadow: false,
       sub: false,
       supernew: false,
       trailing: true,
