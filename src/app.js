@@ -1,6 +1,4 @@
 (function() {
-  var Options, Scrim;
-
   function Editor() {
     this.editor = CodeMirror.fromTextArea(document.getElementById('code'), {
       theme: 'default',
@@ -17,11 +15,8 @@
     return {};
   };
 
-  Scrim = (function() {
-
-    function Scrim() {}
-
-    Scrim.scrim = (function() {
+  var Scrim = {
+    scrim: (function() {
       var el, val;
       el = document.createElement("div");
       document.body.appendChild(el);
@@ -36,37 +31,31 @@
         height: "1080px"
       }).hide();
       return val;
-    })();
+    }()),
 
-    Scrim.isShowing = false;
+    isShowing: false,
 
-    Scrim.toggle = function() {
+    toggle: function () {
       if (this.isShowing) {
         return Scrim.hide();
       } else {
         return Scrim.show();
       }
-    };
+    },
 
-    Scrim.show = function() {
+    show: function() {
       this.isShowing = !this.isShowing;
       return Scrim.scrim.show();
-    };
+    },
 
-    Scrim.hide = function() {
+    hide: function() {
       this.isShowing = !this.isShowing;
       return Scrim.scrim.hide();
-    };
+    }
+  }
 
-    return Scrim;
-
-  })();
-
-  Options = (function() {
-
-    function Options() {}
-
-    Options.options = {
+  var Options = {
+    options: {
       asi: false,
       auto_indent: false,
       debug: false,
@@ -80,29 +69,29 @@
       supernew: false,
       trailing: true,
       white: false
-    };
+    },
 
-    Options.setOption = function(opt, val) {
+    setOption: function(opt, val) {
       return this.options[opt] = val;
-    };
+    },
 
-    Options.toggle = function() {
+    toggle: function() {
       if (Scrim.isShowing) {
         return Options.hide();
       } else {
         return Options.show();
       }
-    };
+    },
 
-    Options.show = function() {
+    show: function() {
       Scrim.show();
       $("section.options").addClass("open");
       return setTimeout((function() {
         if (Scrim.isShowing) return $("span.close").addClass("visible");
       }), 1000);
-    };
+    },
 
-    Options.hide = function() {
+    hide: function() {
       $("span.close").removeClass("visible");
       return setTimeout((function() {
         if (Scrim.isShowing) {
@@ -110,52 +99,46 @@
           return Scrim.hide();
         }
       }), 200);
-    };
-
-    return Options;
-
-  })();
-
-  function About() {}
-  About.isOpen = false;
-  About.close = function() {
-    var id = "aside#about_dialog"
-    var _this = this;
-    if (this.isOpen) $(id).removeClass("bounceIn").addClass("bounceOut");
-    setTimeout((function() {
-      if (!_this.isOpen) return $(id).hide();
-    }), 1000);
-    clearTimeout(this.timer);
-    return this.isOpen = false;
-  };
-
-  About.open = function() {
-    var id = "aside#about_dialog"
-    $(id).removeClass("bounceOut").addClass("bounceIn").show();
-    this.timer = setTimeout(About.close, 7500);
-    return this.isOpen = true;
-  };
-
-
-  var Legacy = {
-    isOpen: false,
-    close: function () {
-      var id = "aside#legacy_dialog"
-      var _this = this;
-      if (this.isOpen) $(id).removeClass("bounceIn").addClass("bounceOut");
-      setTimeout((function() {
-        if (!_this.isOpen) return $(id).hide();
-      }), 1000);
-      clearTimeout(this.timer);
-      return this.isOpen = false;
-    },
-    open: function () {
-      var id = "aside#legacy_dialog"
-      $(id).removeClass("bounceOut").addClass("bounceIn").show();
-      this.timer = setTimeout(Legacy.close, 7500);
-      return this.isOpen = true;
     }
   }
+
+  function Dialog(id) {
+    this.id = id
+  }
+
+  Dialog.prototype.open = function () {
+    Dialog.open(this.id)
+  }
+
+  Dialog.prototype.close = function () {
+    Dialog.close(this.id)
+  }
+
+  Dialog.openDialog = null
+  Dialog.autoHideTimer = null
+
+  Dialog.close = function (id) {
+    if (Dialog.openDialog) {
+      $(id).removeClass("bounceIn").addClass("bounceOut");
+    }
+    clearTimeout(Dialog.autoHideTimer);
+    setTimeout(function() {
+      $(id).hide();
+    }, 1000);
+    Dialog.openDialog = null;
+  }
+
+  Dialog.open = function (id) {
+    if (Dialog.openDialog) {
+      Dialog.close(Dialog.openDialog);
+    }
+    $(id).removeClass("bounceOut").addClass("bounceIn").show();
+    Dialog.autoHideTimer = setTimeout(Dialog.close.bind(Dialog, id), 7500);
+    Dialog.openDialog = id;
+  }
+
+  var Legacy = new Dialog("aside#legacy_dialog")
+  var About = new Dialog("aside#about_dialog")
 
   $.domReady(function() {
     var env;
