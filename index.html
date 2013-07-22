@@ -12,7 +12,7 @@
       <a id="about" href="#">About</a>
       <a href="/packages/fixmyjs.js">Download</a>
       <a href="https://github.com/jshint/fixmyjs/issues">Report Issue</a>
-      <input name="legacy" type="checkbox" value="legacy" /> <label for="legacy"><span id="legacy" href="#">Use Legacy</span></label>
+      <input name="legacy" class="legacy" type="checkbox" value="legacy" /> <label for="legacy"><span id="legacy" href="#">Use Legacy</span></label>
       <aside id="legacy_dialog">
         <p>Legacy is the previous, stable version of fixmyjs</p>
         <p>It uses JSHINT to detect errors in your code and fixes them.</p>
@@ -54,6 +54,7 @@
   </aside>
 </body>
   <script type="application/javascript" src="packages/fixmyjs.js"></script>
+  <script type="application/javascript" src="packages/jshint.js"></script>
   <script src="packages/jeesh/jeesh.min.js" type="application/javascript"></script>
   <script src="packages/CodeMirror2/lib/codemirror.js"></script>
   <script src="packages/CodeMirror2/mode/javascript/javascript.js"></script>
