@@ -1,37 +1,21 @@
 (function() {
-  var About, Editor, Options, Scrim;
+  var Options, Scrim;
 
-  Editor = (function() {
+  function Editor() {
+    this.editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+      theme: 'default',
+      lineNumbers: true
+    });
+    this.editor.focus();
+  }
 
-    function Editor() {
-      this.editor = CodeMirror.fromTextArea(document.getElementById('code'), {
-        theme: 'default',
-        lineNumbers: true
-      });
-      this.editor.focus();
-    }
+  Editor.prototype.hint = function() {
+    this.editor.setValue(fixMyJS.fix(this.editor.getValue(), Options.options))
+  };
 
-    Editor.prototype.hint = function() {
-      var code, fix, result;
-      code = this.editor.getValue();
-      result = JSHINT(code, Options.options);
-      if (result) return true;
-      fix = fixMyJS(JSHINT.data(), code);
-      try {
-        fix.run();
-      } catch (error) {
-        alert(error + " Try hitting Fix It again to fix the remaining errors.");
-      }
-      return this.editor.setValue(fix.getCode());
-    };
-
-    Editor.getOptions = function() {
-      return {};
-    };
-
-    return Editor;
-
-  })();
+  Editor.getOptions = function() {
+    return {};
+  };
 
   Scrim = (function() {
 
@@ -132,31 +116,46 @@
 
   })();
 
-  About = (function() {
+  function About() {}
+  About.isOpen = false;
+  About.close = function() {
+    var id = "aside#about_dialog"
+    var _this = this;
+    if (this.isOpen) $(id).removeClass("bounceIn").addClass("bounceOut");
+    setTimeout((function() {
+      if (!_this.isOpen) return $(id).hide();
+    }), 1000);
+    clearTimeout(this.timer);
+    return this.isOpen = false;
+  };
 
-    function About() {}
+  About.open = function() {
+    var id = "aside#about_dialog"
+    $(id).removeClass("bounceOut").addClass("bounceIn").show();
+    this.timer = setTimeout(About.close, 7500);
+    return this.isOpen = true;
+  };
 
-    About.isOpen = false;
 
-    About.close = function() {
+  var Legacy = {
+    isOpen: false,
+    close: function () {
+      var id = "aside#legacy_dialog"
       var _this = this;
-      if (this.isOpen) $("aside").removeClass("bounceIn").addClass("bounceOut");
+      if (this.isOpen) $(id).removeClass("bounceIn").addClass("bounceOut");
       setTimeout((function() {
-        if (!_this.isOpen) return $("aside").hide();
+        if (!_this.isOpen) return $(id).hide();
       }), 1000);
       clearTimeout(this.timer);
       return this.isOpen = false;
-    };
-
-    About.open = function() {
-      $("aside").removeClass("bounceOut").addClass("bounceIn").show();
-      this.timer = setTimeout(About.close, 7500);
+    },
+    open: function () {
+      var id = "aside#legacy_dialog"
+      $(id).removeClass("bounceOut").addClass("bounceIn").show();
+      this.timer = setTimeout(Legacy.close, 7500);
       return this.isOpen = true;
-    };
-
-    return About;
-
-  })();
+    }
+  }
 
   $.domReady(function() {
     var env;
@@ -190,8 +189,14 @@
     $("#about").on("click", function() {
       return About.open();
     });
-    return $("aside").on("click", function() {
+    $("#legacy").on("click", function() {
+      return Legacy.open();
+    });
+    $("aside#about_dialog").on("click", function() {
       return About.close();
+    }).hide().addClass("animated");
+    $("aside#legacy_dialog").on("click", function() {
+      return Legacy.close();
     }).hide().addClass("animated");
   });
 

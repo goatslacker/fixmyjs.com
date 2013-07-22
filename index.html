@@ -10,8 +10,13 @@
     <h1>fixmyjs</h1>
     <nav>
       <a id="about" href="#">About</a>
-      <a href="https://raw.github.com/jshint/fixmyjs/master/fixmyjs.js">Download</a>
+      <a href="/packages/fixmyjs.js">Download</a>
       <a href="https://github.com/jshint/fixmyjs/issues">Report Issue</a>
+      <input name="legacy" type="checkbox" value="legacy" /> <label for="legacy"><span id="legacy" href="#">Use Legacy</span></label>
+      <aside id="legacy_dialog">
+        <p>Legacy is the previous, stable version of fixmyjs</p>
+        <p>It uses JSHINT to detect errors in your code and fixes them.</p>
+      </aside>
     </nav>
     <nav class="github">
       <iframe src="http://ghbtns.com/github-btn.html?user=jshint&repo=fixmyjs&type=watch&count=true&size=large"
@@ -42,14 +47,13 @@
     <input name="white" type="checkbox" value="white" /> <label for="white">white</label> <br />
   </section>
   <a id="options" href="#">Options</a>
-  <aside>
+  <aside id="about_dialog">
     <p>fixmyjs.com is meant to automatically fix your lint errors in a non-destructive way.</p>
-    <p>It uses <a href="https://github.com/jshint/jshint">JSHint</a> to detect the errors</p>
+    <p>It uses <a href="https://github.com/ariya/esprima">esprima</a> to parse your code, and <a href="https://github.com/Constellation/escodegen">escodegen</a> to generate it back.</p>
     <p>For more information, <a href="https://github.com/jshint/fixmyjs">go here</a>.</p>
   </aside>
 </body>
-  <script src="packages/jshint.js"></script>
-  <script type="application/javascript" src="src/fixmyjs.js"></script>
+  <script type="application/javascript" src="packages/fixmyjs.js"></script>
   <script src="packages/jeesh/jeesh.min.js" type="application/javascript"></script>
   <script src="packages/CodeMirror2/lib/codemirror.js"></script>
   <script src="packages/CodeMirror2/mode/javascript/javascript.js"></script>
