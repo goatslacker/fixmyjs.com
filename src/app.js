@@ -195,6 +195,9 @@
     $('aside#legacy_dialog').on('click', function() {
       Legacy.close();
     }).hide().addClass('animated');
+
+    console.log($('#version'))
+    $('#version').html('v' + fixMyJS.version);
   });
 
 }).call(this);

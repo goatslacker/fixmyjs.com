@@ -73,7 +73,9 @@ fixMyJS.fix = function (code, config) {
   return escodegen.generate(modifiedTree, options)
 }
 
-},{"./legacy":1,"esprima":2,"escodegen":3,"fu":4,"./rules":5}],1:[function(require,module,exports){(function(){(function () {
+fixMyJS.version = require('../package.json').version
+
+},{"./legacy":1,"esprima":2,"escodegen":3,"fu":4,"./rules":5,"../package.json":6}],1:[function(require,module,exports){(function(){(function () {
 // Global object.
   var exports = this;
 
@@ -813,7 +815,7 @@ fixMyJS.fix = function (code, config) {
     return fixMyJS;
   }());
 
-  exports.fixMyJS.version = '0.6.9';
+  exports.fixMyJS.legacyVersion = '0.6.9';
 
 // for node.js
 // if module is available, we export to it.
@@ -7061,7 +7063,7 @@ parseStatement: true, parseSourceElement: true */
 /* vim: set sw=4 ts=4 et tw=80 : */
 
 })(window)
-},{"util":6,"estraverse":7,"source-map":8,"./package.json":9}],6:[function(require,module,exports){var events = require('events');
+},{"util":7,"estraverse":8,"source-map":9,"./package.json":10}],7:[function(require,module,exports){var events = require('events');
 
 exports.isArray = isArray;
 exports.isDate = function(obj){return Object.prototype.toString.call(obj) === '[object Date]'};
@@ -7413,7 +7415,7 @@ exports.format = function(f) {
   return str;
 };
 
-},{"events":10}],10:[function(require,module,exports){(function(process){if (!process.EventEmitter) process.EventEmitter = function () {};
+},{"events":11}],11:[function(require,module,exports){(function(process){if (!process.EventEmitter) process.EventEmitter = function () {};
 
 var EventEmitter = exports.EventEmitter = process.EventEmitter;
 var isArray = typeof Array.isArray === 'function'
@@ -7593,7 +7595,7 @@ EventEmitter.prototype.listeners = function(type) {
 };
 
 })(require("__browserify_process"))
-},{"__browserify_process":11}],11:[function(require,module,exports){// shim for using process in browser
+},{"__browserify_process":12}],12:[function(require,module,exports){// shim for using process in browser
 
 var process = module.exports = {};
 
@@ -7646,7 +7648,7 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],7:[function(require,module,exports){(function(){/*
+},{}],8:[function(require,module,exports){(function(){/*
   Copyright (C) 2012 Yusuke Suzuki <utatane.tea@gmail.com>
   Copyright (C) 2012 Ariya Hidayat <ariya.hidayat@gmail.com>
 
@@ -7963,7 +7965,7 @@ process.chdir = function (dir) {
 /* vim: set sw=4 ts=4 et tw=80 : */
 
 })()
-},{}],8:[function(require,module,exports){/*
+},{}],9:[function(require,module,exports){/*
  * Copyright 2009-2011 Mozilla Foundation and contributors
  * Licensed under the New BSD license. See LICENSE.txt or:
  * http://opensource.org/licenses/BSD-3-Clause
@@ -7972,7 +7974,7 @@ exports.SourceMapGenerator = require('./source-map/source-map-generator').Source
 exports.SourceMapConsumer = require('./source-map/source-map-consumer').SourceMapConsumer;
 exports.SourceNode = require('./source-map/source-node').SourceNode;
 
-},{"./source-map/source-map-generator":12,"./source-map/source-map-consumer":13,"./source-map/source-node":14}],12:[function(require,module,exports){/* -*- Mode: js; js-indent-level: 2; -*- */
+},{"./source-map/source-map-generator":13,"./source-map/source-map-consumer":14,"./source-map/source-node":15}],13:[function(require,module,exports){/* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
  * Licensed under the New BSD license. See LICENSE or:
@@ -8354,7 +8356,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"amdefine":15,"./base64-vlq":16,"./util":17,"./array-set":18}],15:[function(require,module,exports){(function(process,__filename){/** vim: et:ts=4:sw=4:sts=4
+},{"amdefine":16,"./base64-vlq":17,"./util":18,"./array-set":19}],16:[function(require,module,exports){(function(process,__filename){/** vim: et:ts=4:sw=4:sts=4
  * @license amdefine 0.0.5 Copyright (c) 2011, The Dojo Foundation All Rights Reserved.
  * Available via the MIT or new BSD license.
  * see: http://github.com/jrburke/amdefine for details
@@ -8655,7 +8657,7 @@ function amdefine(module, require) {
 module.exports = amdefine;
 
 })(require("__browserify_process"),"/../node_modules/escodegen/node_modules/source-map/node_modules/amdefine/amdefine.js")
-},{"path":19,"__browserify_process":11}],19:[function(require,module,exports){(function(process){function filter (xs, fn) {
+},{"path":20,"__browserify_process":12}],20:[function(require,module,exports){(function(process){function filter (xs, fn) {
     var res = [];
     for (var i = 0; i < xs.length; i++) {
         if (fn(xs[i], i, xs)) res.push(xs[i]);
@@ -8832,7 +8834,7 @@ exports.relative = function(from, to) {
 };
 
 })(require("__browserify_process"))
-},{"__browserify_process":11}],16:[function(require,module,exports){/* -*- Mode: js; js-indent-level: 2; -*- */
+},{"__browserify_process":12}],17:[function(require,module,exports){/* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
  * Licensed under the New BSD license. See LICENSE or:
@@ -8977,7 +8979,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"amdefine":15,"./base64":20}],20:[function(require,module,exports){/* -*- Mode: js; js-indent-level: 2; -*- */
+},{"amdefine":16,"./base64":21}],21:[function(require,module,exports){/* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
  * Licensed under the New BSD license. See LICENSE or:
@@ -9020,7 +9022,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"amdefine":15}],17:[function(require,module,exports){/* -*- Mode: js; js-indent-level: 2; -*- */
+},{"amdefine":16}],18:[function(require,module,exports){/* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
  * Licensed under the New BSD license. See LICENSE or:
@@ -9138,7 +9140,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"amdefine":15}],18:[function(require,module,exports){/* -*- Mode: js; js-indent-level: 2; -*- */
+},{"amdefine":16}],19:[function(require,module,exports){/* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
  * Licensed under the New BSD license. See LICENSE or:
@@ -9235,7 +9237,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"amdefine":15,"./util":17}],13:[function(require,module,exports){/* -*- Mode: js; js-indent-level: 2; -*- */
+},{"amdefine":16,"./util":18}],14:[function(require,module,exports){/* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
  * Licensed under the New BSD license. See LICENSE or:
@@ -9677,7 +9679,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"amdefine":15,"./util":17,"./binary-search":21,"./array-set":18,"./base64-vlq":16}],21:[function(require,module,exports){/* -*- Mode: js; js-indent-level: 2; -*- */
+},{"amdefine":16,"./util":18,"./binary-search":22,"./array-set":19,"./base64-vlq":17}],22:[function(require,module,exports){/* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
  * Licensed under the New BSD license. See LICENSE or:
@@ -9759,7 +9761,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"amdefine":15}],14:[function(require,module,exports){/* -*- Mode: js; js-indent-level: 2; -*- */
+},{"amdefine":16}],15:[function(require,module,exports){/* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
  * Licensed under the New BSD license. See LICENSE or:
@@ -10113,7 +10115,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"amdefine":15,"./source-map-generator":12,"./util":17}],9:[function(require,module,exports){module.exports={
+},{"amdefine":16,"./source-map-generator":13,"./util":18}],10:[function(require,module,exports){module.exports={
   "name": "escodegen",
   "description": "ECMAScript code generator",
   "homepage": "http://github.com/Constellation/escodegen.html",
@@ -10563,7 +10565,7 @@ define(function (require, exports, module) {
   }
 }
 
-},{"./delete":22,"./dotNotation":23,"./emptyStatement":24,"./initUndefined":25,"./invalidConstructor":26,"./isNaN":27,"./parseInt":28,"./useLiteral":29,"./camelCase":30,"./curly":31,"./newSideEffects":32,"./snake_case":33,"./updateExpression":34,"./debugger":35}],22:[function(require,module,exports){module.exports = {
+},{"./delete":23,"./dotNotation":24,"./emptyStatement":25,"./initUndefined":26,"./invalidConstructor":27,"./isNaN":28,"./parseInt":29,"./useLiteral":30,"./camelCase":31,"./curly":32,"./newSideEffects":33,"./snake_case":34,"./updateExpression":35,"./debugger":36}],23:[function(require,module,exports){module.exports = {
   UnaryExpression: rmDelete
 }
 
@@ -10587,7 +10589,7 @@ function rmDelete(node) {
   }
 }
 
-},{}],23:[function(require,module,exports){module.exports = {
+},{}],24:[function(require,module,exports){module.exports = {
   MemberExpression: rewriteDotNotation
 }
 
@@ -10661,7 +10663,7 @@ function rewriteDotNotation(node) {
   }
 }
 
-},{"fu":4}],24:[function(require,module,exports){module.exports = {
+},{"fu":4}],25:[function(require,module,exports){module.exports = {
   EmptyStatement: rmEmpty
 }
 
@@ -10669,7 +10671,7 @@ function rmEmpty() {
   return []
 }
 
-},{}],25:[function(require,module,exports){module.exports = {
+},{}],26:[function(require,module,exports){module.exports = {
   VariableDeclarator: rmInitUndefined
 }
 
@@ -10687,7 +10689,7 @@ function rmInitUndefined(node) {
   }
 }
 
-},{}],26:[function(require,module,exports){module.exports = {
+},{}],27:[function(require,module,exports){module.exports = {
   NewExpression: rmBadConstructor
 }
 
@@ -10716,7 +10718,7 @@ function rmBadConstructor(node) {
   }
 }
 
-},{}],27:[function(require,module,exports){module.exports = {
+},{}],28:[function(require,module,exports){module.exports = {
   BinaryExpression: fixNaNComparisons
 }
 
@@ -10768,7 +10770,7 @@ function fixNaNComparisons(node) {
     : nanCall
 }
 
-},{"fu":4}],28:[function(require,module,exports){module.exports = {
+},{"fu":4}],29:[function(require,module,exports){module.exports = {
   CallExpression: fixRadix
 }
 
@@ -10791,7 +10793,7 @@ function fixRadix(node) {
   }
 }
 
-},{"fu":4}],29:[function(require,module,exports){module.exports = {
+},{"fu":4}],30:[function(require,module,exports){module.exports = {
   CallExpression: useLiteral,
   NewExpression: useLiteral
 }
@@ -10822,7 +10824,7 @@ function useLiteral(node) {
   return getNode(node.callee)
 }
 
-},{}],30:[function(require,module,exports){module.exports = {
+},{}],31:[function(require,module,exports){module.exports = {
   Identifier: useCamelCase
 }
 
@@ -10842,7 +10844,7 @@ function useCamelCase(node, parent) {
   }
 }
 
-},{}],31:[function(require,module,exports){module.exports = {
+},{}],32:[function(require,module,exports){module.exports = {
   ForStatement: addCurly,
   WhileStatement: addCurly,
   IfStatement: addCurlyIfStmt
@@ -10893,7 +10895,7 @@ function addCurlyIfStmt(node) {
       }, uncurlied)))
 }
 
-},{"fu":4}],32:[function(require,module,exports){module.exports = {
+},{"fu":4}],33:[function(require,module,exports){module.exports = {
   NewExpression: noSideEffects
 }
 
@@ -10909,7 +10911,7 @@ function noSideEffects(node, parent) {
   }
 }
 
-},{}],33:[function(require,module,exports){module.exports = {
+},{}],34:[function(require,module,exports){module.exports = {
   Identifier: toSnake
 }
 
@@ -10929,7 +10931,7 @@ function toSnake(node, parent) {
   }
 }
 
-},{}],34:[function(require,module,exports){module.exports = {
+},{}],35:[function(require,module,exports){module.exports = {
   UpdateExpression: rmPostfix
 }
 
@@ -10949,12 +10951,51 @@ function rmPostfix(node) {
   }
 }
 
-},{}],35:[function(require,module,exports){module.exports = {
+},{}],36:[function(require,module,exports){module.exports = {
   DebuggerStatement: rmDebuggerStmt
 }
 
 function rmDebuggerStmt(node) {
   return []
+}
+
+},{}],6:[function(require,module,exports){module.exports={
+  "name": "fixmyjs",
+  "version": "0.9.0",
+  "description": "Automatically fixes your JavaScript based on lint rules",
+  "homepage": "http://fixmyjs.com",
+  "author": "Josh Perez <josh@goatslacker.com> (http://github.com/goatslacker)",
+  "keywords": [
+    "beautify",
+    "jshint",
+    "hint",
+    "lint",
+    "jslint"
+  ],
+  "main": "./lib/index.js",
+  "license": {
+    "type": "MIT",
+    "url": "http://josh.mit-license.org"
+  },
+  "dependencies": {
+    "esprima": "*",
+    "escodegen": "*",
+    "fu": "*",
+    "commander": "*",
+    "diff": "*",
+    "minimatch": "*",
+    "jshint": "*"
+  },
+  "devDependencies": {
+    "testla": "*"
+  },
+  "preferGlobal": true,
+  "scripts": {
+    "test": "./node_modules/testla/bin/testla test"
+  },
+  "engines": {
+    "node": "*"
+  }
 }
 
 },{}]},{},[0]);
