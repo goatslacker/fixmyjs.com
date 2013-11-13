@@ -1,5 +1,10 @@
 # fixmyjs.com
 
+[![Build Status](https://secure.travis-ci.org/goatslacker/fixmyjs.com.png)](http://travis-ci.org/goatslacker/fixmyjs.com)
+[![NPM version](https://badge.fury.io/js/fixmyjs.com.png)](http://badge.fury.io/js/fixmyjs.com)
+[![Dependency Status](https://david-dm.org/goatslacker/fixmyjs.com.png)](https://david-dm.org/goatslacker/fixmyjs.com)
+[![devDependency Status](https://david-dm.org/goatslacker/fixmyjs.com/dev-status.png)](https://david-dm.org/goatslacker/fixmyjs.com#info=devDependencies)
+
 The source code for <http://fixmyjs.com>.
 
 
