@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <link href="css/styles.css" rel="stylesheet" type="text/css" />
   <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
@@ -12,17 +13,19 @@
       <a id="about" href="#">About</a>
       <a href="/packages/fixmyjs.js">Download</a>
       <a href="https://github.com/jshint/fixmyjs/issues">Report Issue</a>
-      <input name="legacy" class="legacy" type="checkbox" value="legacy" /> <label for="legacy"><span id="legacy" href="#">Use Legacy</span></label>
+      <input name="legacy" class="legacy" type="checkbox" value="legacy"> <label for="legacy"><span id="legacy" href="#">Use Legacy</span></label>
       <aside id="legacy_dialog">
         <p>Legacy is the previous, stable version of fixmyjs</p>
-        <p>It uses JSHINT to detect errors in your code and fixes them.</p>
+        <p>It uses JSHint to detect errors in your code and fixes them.</p>
       </aside>
     </nav>
     <nav class="github">
-      <iframe src="http://ghbtns.com/github-btn.html?user=jshint&repo=fixmyjs&type=watch&count=true&size=large"
-        allowtransparency="true" frameborder="0" scrolling="0" width="130px" height="30px"></iframe>
-      <iframe src="http://ghbtns.com/github-btn.html?user=goatslacker&type=follow&size=large"
-        allowtransparency="true" frameborder="0" scrolling="0" width="205px" height="30px"></iframe>
+      <iframe src="http://ghbtns.com/github-btn.html?user=jshint&amp;repo=fixmyjs&amp;type=watch&amp;count=true&amp;size=large"
+        allowtransparency="true" frameborder="0" scrolling="0" width="130" height="30">
+      </iframe>
+      <iframe src="http://ghbtns.com/github-btn.html?user=goatslacker&amp;type=follow&amp;size=large"
+        allowtransparency="true" frameborder="0" scrolling="0" width="205" height="30">
+      </iframe>
     </nav>
   </header>
   <section>
@@ -32,19 +35,19 @@
   <footer><span id="version">v</span> &copy; <a href="http://josh.mit-license.org">license</a></footer>
   <span class="close">X</span>
   <section class="options">
-    <input name="asi" type="checkbox" value="asi" /> <label for="asi">asi</label> <br />
-    <input name="auto_indent" type="checkbox" value="auto_indent" /> <label for="auto_indent">auto_indent</label> <br />
-    <input name="debug" type="checkbox" value="debug" /> <label for="debug">debug</label> <br />
-    <input name="immed" type="checkbox" value="immed" checked="checked" /> <label for="immed">immed</label> <br />
-    <input name="indent" type="text" value="4" class="optText" /> <label for="indent">indent</label> <br />
-    <input type="radio" name="indentpref" value="spaces" checked="checked" /> <label for="indentpref">spaces</label> <br />
-    <input type="radio" name="indentpref" value="tabs" /> <label for="indentpref">tabs</label> <br />
-    <input name="lastsemic" type="checkbox" value="lastsemic" /> <label for="lastsemic">lastsemic</label> <br />
-    <input name="laxbreak" type="checkbox" value="laxbreak" checked="checked" /> <label for="laxbreak">laxbreak</label> <br />
-    <input name="sub" type="checkbox" value="sub" /> <label for="sub">sub</label> <br />
-    <input name="supernew" type="checkbox" value="supernew" /> <label for="supernew">supernew</label> <br />
-    <input name="trailing" type="checkbox" value="trailing" checked="checked" /> <label for="trailing">trailing</label> <br />
-    <input name="white" type="checkbox" value="white" /> <label for="white">white</label> <br />
+    <input name="asi" type="checkbox" value="asi"> <label for="asi">asi</label> <br>
+    <input name="auto_indent" type="checkbox" value="auto_indent"> <label for="auto_indent">auto_indent</label> <br>
+    <input name="debug" type="checkbox" value="debug"> <label for="debug">debug</label> <br>
+    <input name="immed" type="checkbox" value="immed" checked="checked"> <label for="immed">immed</label> <br>
+    <input name="indent" type="text" value="4" class="optText"> <label for="indent">indent</label> <br>
+    <input type="radio" name="indentpref" value="spaces" checked="checked"> <label for="indentpref">spaces</label> <br>
+    <input type="radio" name="indentpref" value="tabs"> <label for="indentpref">tabs</label> <br>
+    <input name="lastsemic" type="checkbox" value="lastsemic"> <label for="lastsemic">lastsemic</label> <br>
+    <input name="laxbreak" type="checkbox" value="laxbreak" checked="checked"> <label for="laxbreak">laxbreak</label> <br>
+    <input name="sub" type="checkbox" value="sub"> <label for="sub">sub</label> <br>
+    <input name="supernew" type="checkbox" value="supernew"> <label for="supernew">supernew</label> <br>
+    <input name="trailing" type="checkbox" value="trailing" checked="checked"> <label for="trailing">trailing</label> <br>
+    <input name="white" type="checkbox" value="white"> <label for="white">white</label> <br>
   </section>
   <a id="options" href="#">Options</a>
   <aside id="about_dialog">
@@ -52,24 +55,22 @@
     <p>It uses <a href="https://github.com/ariya/esprima">esprima</a> to parse your code, and <a href="https://github.com/Constellation/escodegen">escodegen</a> to generate it back.</p>
     <p>For more information, <a href="https://github.com/jshint/fixmyjs">go here</a>.</p>
   </aside>
-</body>
-  <script type="application/javascript" src="packages/fixmyjs.js"></script>
-  <script type="application/javascript" src="packages/jshint.js"></script>
-  <script src="packages/jeesh/jeesh.min.js" type="application/javascript"></script>
+  <script src="packages/fixmyjs.js"></script>
+  <script src="packages/jshint.js"></script>
+  <script src="packages/jeesh/jeesh.min.js"></script>
   <script src="packages/CodeMirror2/lib/codemirror.js"></script>
   <script src="packages/CodeMirror2/mode/javascript/javascript.js"></script>
-  <script src="src/app.js" type="application/javascript"></script>
-  <script type="text/javascript">
+  <script src="src/app.js""></script>
+  <script>
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-26864278-1']);
+    _gaq.push(['_trackPageview']);
 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-26864278-1']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script>
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+</body>
 </html>
