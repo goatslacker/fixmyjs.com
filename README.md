@@ -1,4 +1,11 @@
-Copyright (C) 2011 by Sabaca <mail@sabaca.com> under the MIT license.
+# fixmyjs.com
+
+The source code for <http://fixmyjs.com>.
+
+
+# License
+
+Copyright (C) 2011-2103 by Josh Perez <josh@goatslacker.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
