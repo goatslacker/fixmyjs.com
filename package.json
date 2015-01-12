@@ -1,0 +1,42 @@
+{
+  "name": "fixmyjs.com",
+  "version": "0.13.1",
+  "description": "Source code for fixmyjs.com",
+  "homepage": "http://fixmyjs.com",
+  "license": "MIT",
+  "author": "Josh Perez <josh@goatslacker.com> (http://github.com/goatslacker)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/goatslacker/fixmyjs.com"
+  },
+  "bugs": {
+    "url": "https://github.com/goatslacker/fixmyjs.com/issues"
+  },
+  "keywords": [
+    "beautify",
+    "hint",
+    "jshint",
+    "jslint",
+    "lint"
+  ],
+  "dependencies": {
+    "codemirror": "~2.33.0",
+    "fixmyjs": "~0.13.1",
+    "jeesh": "~0.0.6",
+    "jshint": "~2.3.0"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-connect": "~0.5.0",
+    "grunt-contrib-cssmin": "~0.7.0",
+    "grunt-contrib-uglify": "~0.2.7",
+    "grunt-include-replace": "~1.1.1"
+  },
+  "scripts": {
+    "test": "grunt"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  }
+}
