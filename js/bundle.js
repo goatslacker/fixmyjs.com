@@ -58210,7 +58210,7 @@ var App = React.createClass({displayName: "App",
         React.createElement("div", {className: "col c6 full-height"}, 
           this.renderEditor()
         ), 
-        React.createElement("div", {className: "col c6 full-height no-gutter bg-black txt-light-gray"}, 
+        React.createElement("div", {className: "col c6 full-height no-gutter bg-yellow txt-dark-gray"}, 
           this.renderOptions(), 
           this.renderDiff()
         )
@@ -58310,7 +58310,7 @@ var Options = React.createClass({displayName: "Options",
       React.createElement("div", {className: "sp-vert-sm"}, 
         Object.keys(this.state.options).map(function(option)  {
           return (
-            React.createElement("label", {key: option, className: "txt-light-gray sp-horiz-sm"}, 
+            React.createElement("label", {key: option, className: "sp-horiz-sm"}, 
               React.createElement("input", {
                 type: "checkbox", 
                 checked: this.state.options[option], 

@@ -107,7 +107,7 @@ var App = React.createClass({
         <div className="col c6 full-height">
           {this.renderEditor()}
         </div>
-        <div className="col c6 full-height no-gutter bg-black txt-light-gray">
+        <div className="col c6 full-height no-gutter bg-yellow txt-dark-gray">
           {this.renderOptions()}
           {this.renderDiff()}
         </div>

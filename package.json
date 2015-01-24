@@ -52,7 +52,8 @@
     },
     "colors": {
       "black": "#3d3d3d",
-      "green": "#78CF8A"
+      "green": "#78cf8a",
+      "yellow": "#fdf6e3"
     }
   }
 }
