@@ -44,7 +44,7 @@ var Header = React.createClass({
               Diff
             </button>
             <button
-              className="btn bg-green"
+              className={'btn bg-green' + (this.props.options ? ' pressed' : '')}
               onClick={this.props.onOptions}>
               Options
             </button>

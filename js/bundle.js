@@ -58206,6 +58206,7 @@ var App = React.createClass({displayName: "App",
         React.createElement(Header, {
           onDiff: this.diff, 
           onFix: this.fix, 
+          options: this.state.showOptions, 
           onOptions: this.toggleOptions}), 
         React.createElement("div", {className: "col c6 full-height"}, 
           this.renderEditor()
@@ -58268,7 +58269,7 @@ var Header = React.createClass({displayName: "Header",
               "Diff"
             ), 
             React.createElement("button", {
-              className: "btn bg-green", 
+              className: 'btn bg-green' + (this.props.options ? ' pressed' : ''), 
               onClick: this.props.onOptions}, 
               "Options"
             )

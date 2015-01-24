@@ -103,6 +103,7 @@ var App = React.createClass({
         <Header
           onDiff={this.diff}
           onFix={this.fix}
+          options={this.state.showOptions}
           onOptions={this.toggleOptions} />
         <div className="col c6 full-height">
           {this.renderEditor()}
