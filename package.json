@@ -1,0 +1,58 @@
+{
+  "name": "fixmyjs.com",
+  "version": "1.0.0",
+  "description": "A website for fixmyjs",
+  "main": "index.js",
+  "scripts": {
+    "build-css": "node_modules/lotus.css/bin/lotus > css/lotus.min.css",
+    "build-js": "browserify -t [reactify --es6] src/index.js > js/bundle.js",
+    "build": "npm run build-css; npm run build-js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/goatslacker/fixmyjs.com.git"
+  },
+  "keywords": [
+    "fixmyjs"
+  ],
+  "author": "Josh Perez <josh@goatslacker.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/goatslacker/fixmyjs.com/issues"
+  },
+  "homepage": "https://github.com/goatslacker/fixmyjs.com",
+  "dependencies": {
+    "alt": "^0.6.0",
+    "codemirror": "^4.11.0",
+    "diff": "^1.2.1",
+    "fixmyjs": "jshint/fixmyjs.git#v2.0",
+    "object-assign": "^2.0.0",
+    "react-code-mirror": "^3.0.3"
+  },
+  "devDependencies": {
+    "browserify": "^8.1.0",
+    "lotus.css": "^1.0.2",
+    "react": "^0.12.2",
+    "reactify": "^0.17.1",
+    "uglify-js": "^2.4.16"
+  },
+  "lotus.css": {
+    "modules": {
+      "font": true,
+      "normalize": true,
+      "typography": true,
+      "grid": true,
+      "responsive_extras": true,
+      "buttons": true,
+      "colors": true,
+      "spacing": true,
+      "tables": true,
+      "extras": true
+    },
+    "colors": {
+      "black": "#3d3d3d",
+      "green": "#78CF8A"
+    }
+  }
+}

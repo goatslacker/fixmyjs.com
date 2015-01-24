@@ -1,364 +1,79 @@
-html, body, div, span, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-abbr, address, cite, code,
-del, dfn, em, img, ins, kbd, q, samp,
-small, strong, sub, sup, var,
-b, i,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section, summary,
-time, mark, audio, video {
-  margin:0;
-  padding:0;
-  border:0;
-  outline:0;
-  font-size:100%;
-  vertical-align:baseline;
-  background:transparent;
-}
-
-body {
-  line-height:1;
-}
-
-article,aside,details,figcaption,figure,
-footer,header,hgroup,menu,nav,section {
-  display:block;
-}
-
-nav ul {
-  list-style:none;
-}
-
-blockquote, q {
-  quotes:none;
-}
-
-blockquote:before, blockquote:after,
-q:before, q:after {
-  content:'';
-  content:none;
-}
-
 a {
-  margin:0;
-  padding:0;
-  font-size:100%;
-  vertical-align:baseline;
-  background:transparent;
-}
-
-/* change colours to suit your needs */
-ins {
-  background-color:#ff9;
-  color:#000;
-  text-decoration:none;
-}
-
-/* change colours to suit your needs */
-mark {
-  background-color:#ff9;
-  color:#000;
-  font-style:italic;
-  font-weight:bold;
-}
-
-del {
-  text-decoration: line-through;
-}
-
-abbr[title], dfn[title] {
-  border-bottom:1px dotted;
-  cursor:help;
-}
-
-table {
-  border-collapse:collapse;
-  border-spacing:0;
-}
-
-/* change border colour to suit your needs */
-hr {
-  display:block;
-  height:1px;
-  border:0;
-  border-top:1px solid #cccccc;
-  margin:1em 0;
-  padding:0;
-}
-
-input, select {
-  vertical-align:middle;
-}
-
-body {
-  color: #333;
-  background-color: #d2d2d2;
-  background-size: 20px 20px;
-  position: relative;
-}
-
-a, a:active, a:visited {
-  color: #282828;
-  background: #7bc7ff;
-  padding: 0 10px;
-  text-decoration: none;
-}
-
-a:hover {
-  color: #7bc7ff;
-  background: #282828;
+  color: #fff;
 }
 
 header {
-  padding: 10px 20px;
-  height: 60px;
+  height: 140px;
 }
 
 header h1 {
-  font-size: 3em;
-  color: #7bc7ff;
-  font-family: Helvetica;
-}
-
-nav.github {
+  letter-spacing: 0.1em;
+  line-height: 1.25em;
+  margin: 0;
   position: absolute;
-  top: 25px;
-  right: 15px;
+  text-shadow: 0 -1px 0 #353535;
+  width: 100%;
 }
 
-nav a {
-  margin-right: 5px;
+.header {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  position: relative;
+  z-index: 11;
 }
 
-nav a:hover {
-  background: #ff7bc7 !important;
-  color: #341022;
-}
-
-footer {
-  font-family: Helvetica;
-  font-size: 12px;
+.github {
+  bottom: 1em;
+  left: 2.25em;
   position: absolute;
-  left: 10px;
-  bottom: 10px;
 }
 
-#options {
-  font-family: Inconsolata;
-  position: fixed;
-  top: -4px;
-  left: 190px;
-  z-index: 9001;
-  font-size: 20px;
-  padding: 4px 8px;
-  border: 2px solid white;
-  border-top: none;
-  cursor: pointer;
-  color: white;
-  background: #ff7bc7;
-  opacity: 0.6;
-  -webkit-transition: all 0.2s ease-in-out;
-  -moz-transition: all 0.2s ease-in-out;
-  -ms-transition: all 0.2s ease-in-out;
-  -o-transition: all 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
-}
-
-#options:hover {
-  background: #7bc7ff;
-  top: 0px;
-  -webkit-transition: all 0.2s ease-in-out;
-  -moz-transition: all 0.2s ease-in-out;
-  -ms-transition: all 0.2s ease-in-out;
-  -o-transition: all 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
-}
-
-section.options {
+.buttons {
+  bottom: 1.25em;
   position: absolute;
-  overflow: hidden;
-  width: 120px;
-  z-index: 9001;
-  top: 15px;
-  left: -220px;
-  font-size: 20px;
-  line-height: 20px;
-  background: white;
-  border: 2px solid #353535;
-  border-left: none;
-  -webkit-border-radius: 14px;
-  -moz-border-radius: 14px;
-  -ms-border-radius: 14px;
-  -o-border-radius: 14px;
-  border-radius: 14px;
-  padding: 10px 40px;
-  -webkit-transition: all 1s ease-in-out;
-  -moz-transition: all 1s ease-in-out;
-  -ms-transition: all 1s ease-in-out;
-  -o-transition: all 1s ease-in-out;
-  transition: all 1s ease-in-out;
+  width: 100%;
 }
 
-section.options input.optText {
-  width: 20px;
-  margin: 0 5px;
+.full-height {
+  height: calc(100% - 140px);
+  overflow: scroll;
+}
+
+.nav {
+  position: absolute;
+  z-index: 2;
+}
+
+.nav ul {
+  list-style-type: none;
+  margin: 0;
   padding: 0;
+  padding-left: 1em;
 }
 
-span.close {
-  background: black;
-  color: white;
-  font-family: Inconsolata;
-  font-size: 14px;
-  line-height: 14px;
-  font-weight: 700;
-  display: block;
-  position: absolute;
-  top: 10px;
-  left: 175px;
-  z-index: 9002;
-  padding: 2px 6px;
-  cursor: pointer;
-  border: 2px solid white;
-  -webkit-border-radius: 14px;
-  -moz-border-radius: 14px;
-  -ms-border-radius: 14px;
-  -o-border-radius: 14px;
-  border-radius: 14px;
-  opacity: 0;
-  -webkit-transition: all 0.2s ease-in-out;
-  -moz-transition: all 0.2s ease-in-out;
-  -ms-transition: all 0.2s ease-in-out;
-  -o-transition: all 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
+html .CodeMirror {
+  height: 100%;
 }
 
-span.close.visible {
-  opacity: 1;
-  -webkit-transition: all 0.2s ease-in-out;
-  -moz-transition: all 0.2s ease-in-out;
-  -ms-transition: all 0.2s ease-in-out;
-  -o-transition: all 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
+html .CodeMirror-linenumber {
+  margin-left: -38px;
 }
 
-section.options input {
-  float: left;
-}
-
-section.options label {
-  float: left;
-}
-
-section.options br {
-  clear: both;
-}
-
-section.options.open {
-  left: -10px;
-  -webkit-transition: all 1s ease-in-out;
-  -moz-transition: all 1s ease-in-out;
-  -ms-transition: all 1s ease-in-out;
-  -o-transition: all 1s ease-in-out;
-  transition: all 1s ease-in-out;
-}
-
-aside {
-  font-family: Helvetica;
-  position: absolute;
-  width: 300px;
-  top: 25%;
-  left: 37%;
-  color: white;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 9002;
-  padding: 20px;
-  border: 4px solid white;
-  -webkit-border-radius: 14px;
-  -moz-border-radius: 14px;
-  -ms-border-radius: 14px;
-  -o-border-radius: 14px;
-  border-radius: 14px;
-}
-
-aside p {
-  padding: 5px 0;
-}
-
-button {
-  position: absolute;
-  bottom: 15px;
-  right: 15px;
-  background-color: rgba(50, 50, 50, 0.9);
-  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(50, 50, 50, 0.9) 0%), to(rgba(30, 30, 30, 0.9) 50%));
-  /* Saf4+, Chrome */
-  background-image: -webkit-linear-gradient(top, rgba(50, 50, 50, 0.9) 0%, rgba(30, 30, 30, 0.9) 50%, rgba(20, 20, 20, 0.9) 50%, rgba(0, 0, 0, 0.9) 100%);
-  background-image: -moz-linear-gradient(top, rgba(50, 50, 50, 0.9) 0%, rgba(30, 30, 30, 0.9) 50%, rgba(20, 20, 20, 0.9) 50%, rgba(0, 0, 0, 0.9) 100%);
-  background-image: -ms-linear-gradient(top, rgba(50, 50, 50, 0.9) 0%, rgba(30, 30, 30, 0.9) 50%, rgba(20, 20, 20, 0.9) 50%, rgba(0, 0, 0, 0.9) 100%);
-  background-image: -o-linear-gradient(top, rgba(50, 50, 50, 0.9) 0%, rgba(30, 30, 30, 0.9) 50%, rgba(20, 20, 20, 0.9) 50%, rgba(0, 0, 0, 0.9) 100%);
-  background-image: linear-gradient(top, rgba(50, 50, 50, 0.9) 0%, rgba(30, 30, 30, 0.9) 50%, rgba(20, 20, 20, 0.9) 50%, rgba(0, 0, 0, 0.9) 100%);
-  border: 0;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
-  -o-border-radius: 4px;
-  border-radius: 4px;
-  -webkit-box-shadow: inset 1px 1px 1px 0px rgba(135, 135, 135, 0.1), inset -1px -1px 1px 0px rgba(135, 135, 135, 0.1);
-  -moz-box-shadow: inset 1px 1px 1px 0px rgba(135, 135, 135, 0.1), inset -1px -1px 1px 0px rgba(135, 135, 135, 0.1);
-  -ms-box-shadow: inset 1px 1px 1px 0px rgba(135, 135, 135, 0.1), inset -1px -1px 1px 0px rgba(135, 135, 135, 0.1);
-  -o-box-shadow: inset 1px 1px 1px 0px rgba(135, 135, 135, 0.1), inset -1px -1px 1px 0px rgba(135, 135, 135, 0.1);
-  box-shadow: inset 1px 1px 1px 0px rgba(135, 135, 135, 0.1), inset -1px -1px 1px 0px rgba(135, 135, 135, 0.1);
+.btn.bg-green {
+  border-bottom: 2px solid #388f4a;
   color: #fff;
-  font-size: 1.1em;
-  font-family: Inconsolata;
-  font-weight: 700;
-  letter-spacing: -2px;
-  line-height: 1;
-  padding: 10px 0;
-  text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.8), 0 1px 1px rgba(255, 255, 255, 0.3);
-  width: 100px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin: 0 0.5em;
+  text-shadow: 0 -1px 0 #000;
+  text-transform: uppercase;
+  width: 8em;
 }
 
-button:hover {
-  background-color: rgba(70, 70, 70, 0.9);
-  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(70, 70, 70, 0.9) 0%), to(rgba(50, 50, 50, 0.9) 50%));
-  /* Saf4+, Chrome */
-  background-image: -webkit-linear-gradient(top, rgba(70, 70, 70, 0.9) 0%, rgba(50, 50, 50, 0.9) 50%, rgba(40, 40, 40, 0.9) 50%, rgba(20, 20, 20, 0.9) 100%);
-  background-image: -moz-linear-gradient(top, rgba(70, 70, 70, 0.9) 0%, rgba(50, 50, 50, 0.9) 50%, rgba(40, 40, 40, 0.9) 50%, rgba(20, 20, 20, 0.9) 100%);
-  background-image: -ms-linear-gradient(top, rgba(70, 70, 70, 0.9) 0%, rgba(50, 50, 50, 0.9) 50%, rgba(40, 40, 40, 0.9) 50%, rgba(20, 20, 20, 0.9) 100%);
-  background-image: -o-linear-gradient(top, rgba(70, 70, 70, 0.9) 0%, rgba(50, 50, 50, 0.9) 50%, rgba(40, 40, 40, 0.9) 50%, rgba(20, 20, 20, 0.9) 100%);
-  background-image: linear-gradient(top, rgba(70, 70, 70, 0.9) 0%, rgba(50, 50, 50, 0.9) 50%, rgba(40, 40, 40, 0.9) 50%, rgba(20, 20, 20, 0.9) 100%);
-  cursor: pointer;
+.btn.bg-green:active {
+  border-bottom: 2px solid #78CF8A;
+  box-shadow: inset 0 2px 2px #388f4a;
 }
 
-button:active {
-  background-color: rgba(30, 30, 30, 0.9);
-  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(30, 30, 30, 0.9) 0%), to(rgba(20, 20, 20, 0.9) 50%));
-  /* Saf4+, Chrome */
-  background-image: -webkit-linear-gradient(top, rgba(30, 30, 30, 0.9) 0%, rgba(20, 20, 20, 0.9) 50%, rgba(10, 10, 10, 0.9) 50%, rgba(0, 0, 0, 0.9) 100%);
-  background-image: -moz-linear-gradient(top, rgba(30, 30, 30, 0.9) 0%, rgba(20, 20, 20, 0.9) 50%, rgba(10, 10, 10, 0.9) 50%, rgba(0, 0, 0, 0.9) 100%);
-  background-image: -ms-linear-gradient(top, rgba(30, 30, 30, 0.9) 0%, rgba(20, 20, 20, 0.9) 50%, rgba(10, 10, 10, 0.9) 50%, rgba(0, 0, 0, 0.9) 100%);
-  background-image: -o-linear-gradient(top, rgba(30, 30, 30, 0.9) 0%, rgba(20, 20, 20, 0.9) 50%, rgba(10, 10, 10, 0.9) 50%, rgba(0, 0, 0, 0.9) 100%);
-  background-image: linear-gradient(top, rgba(30, 30, 30, 0.9) 0%, rgba(20, 20, 20, 0.9) 50%, rgba(10, 10, 10, 0.9) 50%, rgba(0, 0, 0, 0.9) 100%);
-}
-
-.CodeMirror {
-  font-family: Inconsolata;
-  font-size: 16px;
-  background-color:white;
-  border-radius: 3px;
-  border: solid 1px #999;
-}
-
-.codemirror-scroll {
-  height: 500px !important;
-}
-
-span#legacy {
-  color: #0000ff;
-  cursor: pointer;
-  text-decoration: underline;
+.hidden .options {
+  visibility: hidden;
 }
