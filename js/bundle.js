@@ -11555,8 +11555,6 @@ CodeMirror.defineMIME("application/typescript", { name: "javascript", typescript
     global[name] = Module
   }
 }).call(this, 'fixMyJS', function () {
-  var fixMyJS = {}
-
   var esformatter = require('esformatter')
   var fu = require('fu')
   var pkg = require('../package.json')
@@ -11611,20 +11609,28 @@ CodeMirror.defineMIME("application/typescript", { name: "javascript", typescript
     }
   }
 
-  fixMyJS.fix = function (code, config) {
+  function fix(code, config) {
     config = config || {}
 
     var shebang = SHEBANG.exec(code)
     var pureCode = code.replace(SHEBANG, '')
     var lines = pureCode.split('\n')
-    var ast = recast.parse(pureCode)
+    var ast
+    try {
+      ast = recast.parse(pureCode)
+    } catch (e) {
+      if (e.message === 'AST contains no nodes at all?') {
+        return code
+      }
+      throw e
+    }
     validateRules(config)
     var rules = getRules(config)
     var options = { wrapColumn: Infinity }
 
     var modifiedTree = traverse(ast, function (node, parent) {
       return fu.foldl(function (node, f) {
-        return f.hasOwnProperty(node.type)
+        return node && f.hasOwnProperty(node.type)
           ? f[node.type](node, parent, retrieveCode(lines, node.loc))
           : node
       }, rules, node)
@@ -11641,10 +11647,11 @@ CodeMirror.defineMIME("application/typescript", { name: "javascript", typescript
       : [shebang[1], generatedCode].join('\n')
   }
 
-  fixMyJS.version = pkg.version
-  fixMyJS.defaultOptions = pkg.fixmyjs
-
-  return fixMyJS
+  return {
+    fix: fix,
+    version: pkg.version,
+    defaultOptions: pkg.fixmyjs
+  }
 })
 
 },{"../package.json":146,"./rules":22,"./traverse":36,"esformatter":37,"fu":107,"object-assign":147,"recast":118}],14:[function(require,module,exports){
@@ -11657,12 +11664,14 @@ function useCamelCase(node, parent) {
     return node
   }
 
-  if (parent.type == 'Property') {
-    return node
-  }
+  if (parent) {
+    if (parent.type == 'Property') {
+      return node
+    }
 
-  if (parent.type == 'MemberExpression' && parent.property === node) {
-    return node
+    if (parent.type == 'MemberExpression' && parent.property === node) {
+      return node
+    }
   }
 
   return {
@@ -12276,12 +12285,14 @@ function toSnake(node, parent) {
     return node
   }
 
-  if (parent.type == 'Property') {
-    return node
-  }
+  if (parent) {
+    if (parent.type == 'Property') {
+      return node
+    }
 
-  if (parent.type == 'MemberExpression' && parent.property === node) {
-    return node
+    if (parent.type == 'MemberExpression' && parent.property === node) {
+      return node
+    }
   }
 
   return {
@@ -12380,6 +12391,10 @@ function traverse(o, f, p) {
       next === node || (next._fixmyjs = 1)
       return next
     }
+  }
+
+  if (o === undefined) {
+    return o
   }
 
   for (k in o) {
@@ -22753,12 +22768,8 @@ function countSpaces(spaces, tabWidth) {
     var len = spaces.length;
 
     for (var i = 0; i < len; ++i) {
-        var ch = spaces.charAt(i);
-
-        if (ch === " ") {
-            count += 1;
-
-        } else if (ch === "\t") {
+        switch (spaces.charCodeAt(i)) {
+        case 9: // '\t'
             assert.strictEqual(typeof tabWidth, "number");
             assert.ok(tabWidth > 0);
 
@@ -22769,11 +22780,19 @@ function countSpaces(spaces, tabWidth) {
                 count = next;
             }
 
-        } else if (ch === "\r") {
-            // Ignore carriage return characters.
+            break;
 
-        } else {
-            assert.fail("unexpected whitespace character", ch);
+        case 11: // '\v'
+        case 12: // '\f'
+        case 13: // '\r'
+        case 0xfeff: // zero-width non-breaking space
+            // These characters contribute nothing to indentation.
+            break;
+
+        case 32: // ' '
+        default: // Treat all other whitespace like ' '.
+            count += 1;
+            break;
         }
     }
 
@@ -23840,7 +23859,13 @@ var defaults = {
 
     // If you want esprima not to throw exceptions when it encounters
     // non-fatal errors, keep this option true.
-    tolerant: true
+    tolerant: true,
+    
+    // If you want to override the quotes used in string literals, specify
+    // either "single", "double", or "auto" here ("auto" will select the one 
+    // which results in the shorter literal)
+    // Otherwise, the input marks will be preserved
+    quote: null,
 }, hasOwn = defaults.hasOwnProperty;
 
 // Copy options and fill in default values.
@@ -23864,7 +23889,8 @@ exports.normalize = function(options) {
         inputSourceMap: get("inputSourceMap"),
         esprima: get("esprima"),
         range: get("range"),
-        tolerant: get("tolerant")
+        tolerant: get("tolerant"),
+        quote: get("quote"),
     };
 };
 
@@ -23918,7 +23944,7 @@ exports.parse = function parse(source, options) {
     var copy = new TreeCopier(lines).copy(file);
 
     // Attach comments to the copy rather than the original.
-    attachComments(comments, copy.program, lines);
+    attachComments(comments, copy, lines);
 
     return copy;
 };
@@ -24904,7 +24930,7 @@ function genericPrintNoParens(path, options, print) {
 
     case "ModuleSpecifier":
         // A ModuleSpecifier is a string-valued Literal.
-        return fromString(nodeStr(n), options);
+        return fromString(nodeStr(n, options), options);
 
     case "UnaryExpression":
         var parts = [n.operator];
@@ -25322,6 +25348,7 @@ function genericPrintNoParens(path, options, print) {
     // Type Annotations for Facebook Flow, typically stripped out or
     // transformed away before printing.
     case "AnyTypeAnnotation": // TODO
+    case "ArrayTypeAnnotation": // TODO
     case "BooleanTypeAnnotation": // TODO
     case "ClassImplements": // TODO
     case "DeclareClass": // TODO
@@ -25348,6 +25375,7 @@ function genericPrintNoParens(path, options, print) {
     case "Type": // TODO
     case "TypeAlias": // TODO
     case "TypeAnnotation": // TODO
+    case "TypeCastExpression": // TODO
     case "TypeParameterDeclaration": // TODO
     case "TypeParameterInstantiation": // TODO
     case "TypeofTypeAnnotation": // TODO
@@ -25648,10 +25676,26 @@ function endsWithBrace(lines) {
     return lastNonSpaceCharacter(lines) === "}";
 }
 
-function nodeStr(n) {
+function swapQuotes(str) {
+    return str.replace(/['"]/g, function(m) {
+        return m === '"' ? '\'' : '"';
+    });
+}
+
+function nodeStr(n, options) {
     namedTypes.Literal.assert(n);
     isString.assert(n.value);
-    return JSON.stringify(n.value);
+    switch (options.quote) {
+    case "auto":
+        var double = JSON.stringify(n.value);
+        var single = swapQuotes(JSON.stringify(swapQuotes(n.value)));
+        return double.length > single.length ? single : double;
+    case "single":
+        return swapQuotes(JSON.stringify(swapQuotes(n.value)));
+    case "double":
+    default:
+        return JSON.stringify(n.value);
+    }
 }
 
 function maybeAddSemicolon(lines) {
@@ -26846,6 +26890,12 @@ def("TypeAlias")
   .field("id", def("Identifier"))
   .field("typeParameters", or(def("TypeParameterDeclaration"), null))
   .field("right", def("Type"));
+  
+def("TypeCastExpression")
+  .bases("Expression")
+  .build("expression", "typeAnnotation")
+  .field("expression", def("Expression"))
+  .field("typeAnnotation", def("TypeAnnotation"));
 
 def("TupleTypeAnnotation")
   .bases("Type")
@@ -39668,12 +39718,12 @@ module.exports={
   "main": "./lib/index.js",
   "dependencies": {
     "commander": "^2.3.0",
-    "diff": "~1.0.7",
+    "diff": "^1.2.2",
     "esformatter": "^0.4.3",
-    "fu": "0.1.x",
+    "fu": "^0.1.0",
     "minimatch": "^2.0.1",
     "object-assign": "^2.0.0",
-    "recast": "^0.9.11"
+    "recast": "^0.9.17"
   },
   "devDependencies": {
     "coveralls": "^2.11.2",
@@ -39729,13 +39779,13 @@ module.exports={
     "sub": true,
     "useLiteral": true
   },
-  "gitHead": "5f1fe6ee0856966fad4405c733956f6f2e625362",
-  "readme": "# [fixmyjs](https://fixmyjs.com)\n\n> Meant to automatically fix your JavaScript errors in a non-destructive way.\n\n[![Build Status](https://secure.travis-ci.org/jshint/fixmyjs.svg)](http://travis-ci.org/jshint/fixmyjs)\n[![Coverage Status](https://img.shields.io/coveralls/jshint/fixmyjs.svg?style=flat)](https://coveralls.io/r/jshint/fixmyjs)\n[![NPM version](https://badge.fury.io/js/fixmyjs.svg)](http://badge.fury.io/js/fixmyjs)\n[![Dependency Status](https://david-dm.org/jshint/fixmyjs.svg)](https://david-dm.org/jshint/fixmyjs)\n[![devDependency Status](https://david-dm.org/jshint/fixmyjs/dev-status.svg)](https://david-dm.org/jshint/fixmyjs#info=devDependencies)\n[![Download Count](https://img.shields.io/npm/dm/fixmyjs.svg?style=flat)](https://www.npmjs.com/package/fixmyjs)\n\n## Installing\n\n```\nnpm install fixmyjs -g\n```\n\n## Usage\n\n```\nfixmyjs your_file.js\n```\n\n### Programatically\n\n```js\nvar fixmyjs = require('fixmyjs')\nvar stringFixedCode = fixmyjs.fix(stringOfCode, objectOfOptions)\n```\n\n\n## Tools\n\n- [Atom plugin](https://github.com/sindresorhus/atom-fixmyjs)\n- [Brackets plugin](https://github.com/fyockm/brackets-fixmyjs)\n- [Gulp plugin](https://github.com/kirjs/gulp-fixmyjs)\n- [Grunt plugin](https://github.com/jonschlinkert/grunt-fixmyjs)\n- [Sublime plugin](https://github.com/addyosmani/sublime-fixmyjs)\n- [fixmyjs.com](http://fixmyjs.com)\n\n\n## Options\n\nWhen the options are set to true they are enabled. To get a breakdown of what is enabled by default check out [package.json](https://github.com/jshint/fixmyjs/blob/v2.0/package.json#L62)\n\n* `camelcase` - Converts all identifiers to camelCase\n* `curly` - Adds curly braces to all statements that don't have them\n* `curlyfor` - Adds curly braces only to for statements\n* `curlyif` - Adds curly braces only to if/if-else statements\n* `curlywhile` - Adds curly braces only to while statements\n* `debug` - Removes debugger statements\n* `decimals` - Adds a leading `0` for decimals or removes trailing zero if decimal is whole\n* `delete` - Removes deletion of variables\n* `emptyStatement` - Removes empty statements\n* `eqeqeq` - Enforce strict equality\n* `es3` - Enforces `parseIntRadix` as well as `no-comma-dangle`\n* `hoist` - Hoists all your vars to the top of the function\n* `initUndefined` - Rewrites variable initializations to undefined\n* `invalidConstructor` - Does not allow you to initialize built-in primitive constructors\n* `invokeConstructors` - Adds `()` to any new expressions\n* `isNan` - Replaces equality to NaN with isNaN\n* `multivar` - Replace single var with multi line var\n* `no-comma-dangle` - Removes trailing commas\n* `nonew` - Removes new when using it for side effects\n* `onevar` - Make multi var into one var\n* `parseIntRadix` - Adds a radix parameter to parseInt\n* `plusplus` - Converts `++` and `--` to `+= 1` || `-= 1`\n* `rmdelete` - Removes the deletion of variables\n* `rmempty` - Removes empty statements\n* `snakecase` - Convert all identifiers to snake_case\n* `sub` - Dot notation conversion\n* `useLiteral` - Rewrites your primitives to use their literal form\n\n\n## Breaking Changes in 2.0\n\n* Legacy mode has been removed.\n* You now put your config inside package.json. You can check out an [example in this project](https://github.com/jshint/fixmyjs/blob/v2.0/package.json#L62).\n* All rules have been made truthy because having some rules be truthy and others falsy is weird.\n* Option `es3` now enables `no-comma-dangle` as well as new option `parseIntRadix`.\n\n\n## License\n\n[MIT](https://github.com/jshint/fixmyjs/blob/master/LICENSE)\n",
+  "gitHead": "7e016c2b98d4205524746fcb0c8f5c51e09fb585",
+  "readme": "# [fixmyjs](https://fixmyjs.com)\n\n[![Join the chat at https://gitter.im/jshint/fixmyjs](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jshint/fixmyjs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)\n\n> Meant to automatically fix your JavaScript errors in a non-destructive way.\n\n[![Build Status](https://secure.travis-ci.org/jshint/fixmyjs.svg)](http://travis-ci.org/jshint/fixmyjs)\n[![Coverage Status](https://img.shields.io/coveralls/jshint/fixmyjs.svg?style=flat)](https://coveralls.io/r/jshint/fixmyjs)\n[![NPM version](https://badge.fury.io/js/fixmyjs.svg)](http://badge.fury.io/js/fixmyjs)\n[![Dependency Status](https://david-dm.org/jshint/fixmyjs.svg)](https://david-dm.org/jshint/fixmyjs)\n[![devDependency Status](https://david-dm.org/jshint/fixmyjs/dev-status.svg)](https://david-dm.org/jshint/fixmyjs#info=devDependencies)\n[![Download Count](https://img.shields.io/npm/dm/fixmyjs.svg?style=flat)](https://www.npmjs.com/package/fixmyjs)\n\n## Installing\n\n```\nnpm install fixmyjs -g\n```\n\n## Usage\n\n```\nfixmyjs your_file.js\n```\n\n### Programatically\n\n```js\nvar fixmyjs = require('fixmyjs')\nvar stringFixedCode = fixmyjs.fix(stringOfCode, objectOfOptions)\n```\n\n\n## Tools\n\n- [Atom plugin](https://github.com/sindresorhus/atom-fixmyjs)\n- [Brackets plugin](https://github.com/fyockm/brackets-fixmyjs)\n- [Gulp plugin](https://github.com/kirjs/gulp-fixmyjs)\n- [Grunt plugin](https://github.com/jonschlinkert/grunt-fixmyjs)\n- [Sublime plugin](https://github.com/addyosmani/sublime-fixmyjs)\n- [fixmyjs.com](http://fixmyjs.com)\n\n\n## Options\n\nWhen the options are set to true they are enabled. To get a breakdown of what is enabled by default check out [package.json](https://github.com/jshint/fixmyjs/blob/v2.0/package.json#L62)\n\n* `camelcase` - Converts all identifiers to camelCase\n* `curly` - Adds curly braces to all statements that don't have them\n* `curlyfor` - Adds curly braces only to for statements\n* `curlyif` - Adds curly braces only to if/if-else statements\n* `curlywhile` - Adds curly braces only to while statements\n* `debug` - Removes debugger statements\n* `decimals` - Adds a leading `0` for decimals or removes trailing zero if decimal is whole\n* `delete` - Removes deletion of variables\n* `emptyStatement` - Removes empty statements\n* `eqeqeq` - Enforce strict equality\n* `es3` - Enforces `parseIntRadix` as well as `no-comma-dangle`\n* `hoist` - Hoists all your vars to the top of the function\n* `initUndefined` - Rewrites variable initializations to undefined\n* `invalidConstructor` - Does not allow you to initialize built-in primitive constructors\n* `invokeConstructors` - Adds `()` to any new expressions\n* `isNan` - Replaces equality to NaN with isNaN\n* `multivar` - Replace single var with multi line var\n* `no-comma-dangle` - Removes trailing commas\n* `nonew` - Removes new when using it for side effects\n* `onevar` - Make multi var into one var\n* `parseIntRadix` - Adds a radix parameter to parseInt\n* `plusplus` - Converts `++` and `--` to `+= 1` || `-= 1`\n* `rmdelete` - Removes the deletion of variables\n* `rmempty` - Removes empty statements\n* `snakecase` - Convert all identifiers to snake_case\n* `sub` - Dot notation conversion\n* `useLiteral` - Rewrites your primitives to use their literal form\n\n\n## Breaking Changes in 2.0\n\n* Legacy mode has been removed.\n* You now put your config inside package.json. You can check out an [example in this project](https://github.com/jshint/fixmyjs/blob/v2.0/package.json#L62).\n* All rules have been made truthy because having some rules be truthy and others falsy is weird.\n* Option `es3` now enables `no-comma-dangle` as well as new option `parseIntRadix`.\n\n\n## License\n\n[MIT](https://github.com/jshint/fixmyjs/blob/master/LICENSE)\n",
   "readmeFilename": "README.md",
   "_id": "fixmyjs@2.0.0",
-  "_shasum": "86fdc2e63866a3556391fa58483fb2241f51676d",
-  "_from": "../../../../var/folders/16/v_z8mnwn59q7lcx175vvhy9w0000gn/T/npm-90607-13e7edc6/1422134426521-0.5229346866253763/5f1fe6ee0856966fad4405c733956f6f2e625362",
-  "_resolved": "git+https://github.com/jshint/fixmyjs.git#5f1fe6ee0856966fad4405c733956f6f2e625362"
+  "_shasum": "95c9c981f0bcd0897787d6f20de6d4198e24d233",
+  "_from": "../../../../var/folders/16/v_z8mnwn59q7lcx175vvhy9w0000gn/T/npm-34734-da9d4ed1/git-cache-7f2011921350/7e016c2b98d4205524746fcb0c8f5c51e09fb585",
+  "_resolved": "git+https://github.com/jshint/fixmyjs.git#7e016c2b98d4205524746fcb0c8f5c51e09fb585"
 }
 
 },{}],147:[function(require,module,exports){
